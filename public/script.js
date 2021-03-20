@@ -256,7 +256,7 @@ function makeBalls(i) {
     container.add(sphere);
 
     sphere.highlight = true;
-    console.log(sphere.highlight);
+    // console.log(sphere.highlight);
 
     sphere.position.set(ballPositions[i].x, ballPositions[i].y, ballPositions[i].z);
 
