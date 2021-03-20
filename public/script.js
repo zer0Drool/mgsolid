@@ -1,36 +1,213 @@
 let scene, camera, renderer, rig, raycaster, mouse, container;
 
 let ballPositions = [
-    [0, 0, 2],
-    [0, 0, -2],
-    [0, 0, 6],
-    [0, 0, -6],
-    [0, 0, 10],
-    [0, 0, -10],
-    [3, 0, 4],
-    [3, 0, -4],
-    [-3, 0, 4],
-    [-3, 0, -4],
-    [3, 0, 8],
-    [3, 0, -8],
-    [-3, 0, 8],
-    [-3, 0, -8]
+    {
+        x: 0,
+        y: 0,
+        z: 2,
+        r: 0.75
+    },
+    {
+        x: 0,
+        y: 0,
+        z: -2,
+        r: 0.75
+    },
+    {
+        x: 0,
+        y: 0,
+        z: 6,
+        r: 1.25
+    },
+    {
+        x: 0,
+        y: 0,
+        z: -6,
+        r: 1.25
+    },
+    {
+        x: 0,
+        y: 0,
+        z: 10,
+        r: 0.75
+    },
+    {
+        x: 0,
+        y: 0,
+        z: -10,
+        r: 0.75
+    },
+    {
+        x: 3,
+        y: 0,
+        z: 4,
+        r: 0.75
+    },
+    {
+        x: 3,
+        y: 0,
+        z: -4,
+        r: 0.75
+    },
+    {
+        x: -3,
+        y: 0,
+        z: 4,
+        r: 0.75
+    },
+    {
+        x: -3,
+        y: 0,
+        z: -4,
+        r: 0.75
+    },
+    {
+        x: 3,
+        y: 0,
+        z: 8,
+        r: 0.75
+    },
+    {
+        x: 3,
+        y: 0,
+        z: -8,
+        r: 0.75
+    },
+    {
+        x: -3,
+        y: 0,
+        z: 8,
+        r: 0.75
+    },
+    {
+        x: -3,
+        y: 0,
+        z: -8,
+        r: 0.75
+    }
 ];
 
 let cylinderPositions = [
-    [0, 0, 0],
-    [3, 0, 6],
-    [3, 0, -6],
-    [-3, 0, 6],
-    [-3, 0, -6],
-    [-1.5, 0, 9, 'negative'],
-    [-1.5, 0, -9, 'positive'],
-    [1.5, 0, 9, 'positive'],
-    [1.5, 0, -9, 'negative'],
-    [-1.5, 0, 3, 'positive'],
-    [-1.5, 0, -3, 'negative'],
-    [1.5, 0, 3, 'negative'],
-    [1.5, 0, -3, 'positive'],
+    {
+        x: 0,
+        y: 0,
+        z: 6,
+        r: 0.3,
+        l: 6,
+        d: Math.PI / 2
+    },
+    {
+        x: 0,
+        y: 0,
+        z: -6,
+        r: 0.3,
+        l: 6,
+        d: Math.PI / 2
+    },
+    {
+        x: 0,
+        y: 0,
+        z: 0,
+        r: 0.3,
+        l: 3,
+        d: null
+    },
+    {
+        x: 3,
+        y: 0,
+        z: 6,
+        r: 0.3,
+        l: 3,
+        d: null
+    },
+    {
+        x: 3,
+        y: 0,
+        z: -6,
+        r: 0.3,
+        l: 3,
+        d: null
+    },
+    {
+        x: -3,
+        y: 0,
+        z: 6,
+        r: 0.3,
+        l: 3,
+        d: null
+    },
+    {
+        x: -3,
+        y: 0,
+        z: -6,
+        r: 0.3,
+        l: 3,
+        d: null
+    },
+    {
+        x: -1.5,
+        y: 0,
+        z: 9,
+        r: 0.3,
+        l: 3,
+        d: Math.PI / -3.5
+    },
+    {
+        x: -1.5,
+        y: 0,
+        z: -9,
+        r: 0.3,
+        l: 3,
+        d: Math.PI / 3.5
+    },
+    {
+        x: 1.5,
+        y: 0,
+        z: 9,
+        r: 0.3,
+        l: 3,
+        d: Math.PI / 3.5
+    },
+    {
+        x: 1.5,
+        y: 0,
+        z: -9,
+        r: 0.3,
+        l: 3,
+        d: Math.PI / -3.5
+    },
+    {
+        x: -1.5,
+        y: 0,
+        z: 3,
+        r: 0.3,
+        l: 3,
+        d: Math.PI / 3.5
+    },
+    {
+        x: -1.5,
+        y: 0,
+        z: -3,
+        r: 0.3,
+        l: 3,
+        d: Math.PI / -3.5
+    },
+    {
+        x: 1.5,
+        y: 0,
+        z: 3,
+        r: 0.3,
+        l: 3,
+        d: Math.PI / -3.5
+    },
+    {
+        x: 1.5,
+        y: 0,
+        z: -3,
+        r: 0.3,
+        l: 3,
+        d: Math.PI / 3.5
+    },
 ];
 
 function init() {
@@ -73,36 +250,34 @@ function init() {
 
 function makeBalls(i) {
 
-    const geometry = new THREE.SphereGeometry(0.75, 32, 32);
+    const geometry = new THREE.SphereGeometry(ballPositions[i].r, 32, 32);
     const material = new THREE.MeshPhongMaterial( { color: 0x00ff00 } );
     sphere = new THREE.Mesh( geometry, material );
     container.add(sphere);
 
-    // sphere.yeet = true;
-    // console.log(sphere.yeet);
+    sphere.highlight = true;
+    console.log(sphere.highlight);
 
-    sphere.position.set(ballPositions[i][0], ballPositions[i][1], ballPositions[i][2])
+    sphere.position.set(ballPositions[i].x, ballPositions[i].y, ballPositions[i].z);
 
 };
 
 function makeCylinders(i) {
 
-    const geometry = new THREE.CylinderGeometry(0.3, 0.3, 4, 64);
+    const geometry = new THREE.CylinderGeometry(cylinderPositions[i].r, cylinderPositions[i].r, cylinderPositions[i].l, 64);
     const material = new THREE.MeshPhongMaterial( { color: 0x00ff00 } );
     cylinder = new THREE.Mesh( geometry, material );
     container.add(cylinder);
 
+    cylinder.highlight = false;
+
     cylinder.rotation.x = Math.PI / 2;
 
-    if (cylinderPositions[i][3]) {
-        if (cylinderPositions[i][3] === 'positive') {
-            cylinder.rotation.z = Math.PI / 4;
-        } else {
-            cylinder.rotation.z = Math.PI / -4;
-        };
+    if (cylinderPositions[i].d) {
+        cylinder.rotation.z = cylinderPositions[i].d;
     };
 
-    cylinder.position.set(cylinderPositions[i][0], cylinderPositions[i][1], cylinderPositions[i][2])
+    cylinder.position.set(cylinderPositions[i].x, cylinderPositions[i].y, cylinderPositions[i].z);
 
 };
 
@@ -123,22 +298,22 @@ function animate() {
 	raycaster.setFromCamera( mouse, camera );
 
 	// calculate objects intersecting the picking ray
-	const intersects = raycaster.intersectObjects( container.children );
-    // console.log(intersects);
+	const intersects = raycaster.intersectObjects(container.children);
 
     for (var i = 0; i < container.children.length; i++) {
-        if (container.children[i].type === 'Mesh') {
+        if (container.children[i].highlight) {
             container.children[i].material.color.set(0x00ff00);
         };
     };
 
     if (mouse.x !== 0 && mouse.y !== 0) {
 
-        for ( let i = 0; i < intersects.length; i ++ ) {
+        for (let i = 0; i < intersects.length; i ++) {
 
-            console.log('intersect!!');
-
-    		intersects[ i ].object.material.color.set( 0x0000ff );
+            if (intersects[i].object.highlight) {
+                console.log('intersect!!');
+                intersects[i].object.material.color.set(0x0000ff);
+            };
 
     	};
 
