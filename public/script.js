@@ -696,7 +696,6 @@ function animate() {
         camera.updateProjectionMatrix();
 
         renderer.render( scene, camera );
-
     };
 
 };
