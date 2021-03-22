@@ -5,85 +5,99 @@ let balls = [
         x: 0,
         y: 0,
         z: 2,
-        r: 0.75
+        r: 0.75,
+        camera: [10, 10, 10]
     },
     {
         x: 0,
         y: 0,
         z: -2,
-        r: 0.75
+        r: 0.75,
+        camera: [-10, 6, -10]
     },
     {
         x: 0,
         y: 0,
         z: 6,
-        r: 1.25
+        r: 1.25,
+        camera: [10, 10, 10]
     },
     {
         x: 0,
         y: 0,
         z: -6,
-        r: 1.25
+        r: 1.25,
+        camera: [10, 10, 10]
     },
     {
         x: 0,
         y: 0,
         z: 10,
-        r: 0.75
+        r: 0.75,
+        camera: [10, 10, 10]
     },
     {
         x: 0,
         y: 0,
         z: -10,
-        r: 0.75
+        r: 0.75,
+        camera: [10, 10, 10]
     },
     {
         x: 3,
         y: 0,
         z: 4,
-        r: 0.75
+        r: 0.75,
+        camera: [10, 10, 10]
     },
     {
         x: 3,
         y: 0,
         z: -4,
-        r: 0.75
+        r: 0.75,
+        camera: [10, 10, 10]
     },
     {
         x: -3,
         y: 0,
         z: 4,
-        r: 0.75
+        r: 0.75,
+        camera: [10, 10, 10]
     },
     {
         x: -3,
         y: 0,
         z: -4,
-        r: 0.75
+        r: 0.75,
+        camera: [10, 10, 10]
     },
     {
         x: 3,
         y: 0,
         z: 8,
-        r: 0.75
+        r: 0.75,
+        camera: [10, 10, 10]
     },
     {
         x: 3,
         y: 0,
         z: -8,
-        r: 0.75
+        r: 0.75,
+        camera: [10, 10, 10]
     },
     {
         x: -3,
         y: 0,
         z: 8,
-        r: 0.75
+        r: 0.75,
+        camera: [10, 10, 10]
     },
     {
         x: -3,
         y: 0,
         z: -8,
-        r: 0.75
+        r: 0.75,
+        camera: [10, 10, 10]
     }
 ];
 
@@ -363,6 +377,7 @@ function makeBalls(i) {
     container.add(sphere);
 
     sphere.highlight = true;
+    sphere.cam = balls[i].camera;
     // console.log(sphere.highlight);
 
     sphere.position.set(balls[i].x, balls[i].y, balls[i].z);
@@ -426,7 +441,7 @@ function onClick() {
         if (intersects[i].object.highlight) {
             // console.log(intersects[i].object.position);
             let pos = intersects[i].object.position;
-            moveCamera(intersects[i].object.position);
+            moveCamera(intersects[i].object.position, intersects[i].object.cam);
             // camera.position.set(pos.x + 5, pos.y + 5, pos.z + 5);
             // camera.lookAt(pos);
         };
@@ -434,7 +449,9 @@ function onClick() {
 
 };
 
-function moveCamera(pos) {
+function moveCamera(ball, pos) {
+
+    console.log('move', pos);
 
     // save original rotation and position
     var startRotation = new THREE.Euler().copy(camera.rotation);
@@ -442,8 +459,8 @@ function moveCamera(pos) {
     // console.log('start', camera.rotation);
 
     // final rotation (with lookAt)
-    camera.position.set(pos.x + 5, pos.y + 5, pos.z + 5);
-    camera.lookAt(pos);
+    camera.position.set(pos[0], pos[1], pos[2]);
+    camera.lookAt(ball);
     var endRotation = new THREE.Euler().copy(camera.rotation);
 
     // revert to original rotation and position
@@ -451,7 +468,7 @@ function moveCamera(pos) {
     camera.position.copy(startPosition);
 
     var tweenMove = new TWEEN.Tween(camera.position)
-    .to({x: pos.x + 5, y: pos.y + 5, z: pos.z + 5}, 1000)
+    .to({x: pos[0], y: pos[1], z: pos[2]}, 1000)
     .easing(TWEEN.Easing.Quartic.InOut)
     .start();
 
