@@ -13,7 +13,7 @@ let balls = [
         z: 2,
         r: 0.75,
         camera: [10, 10, 10],
-        name: 'Strut D'
+        name: 'Strut D - Sediment Pool'
     },
     {
         x: 0,
@@ -21,7 +21,7 @@ let balls = [
         z: -2,
         r: 0.75,
         camera: [-6, 8, -10],
-        name: 'Strut G'
+        name: 'Strut G - Oil Pressure Facility'
     },
     {
         x: 0,
@@ -45,7 +45,7 @@ let balls = [
         z: 10,
         r: 0.75,
         camera: [10, 10, 10],
-        name: 'Strut A'
+        name: 'Strut A - Pump Room'
     },
     {
         x: 0,
@@ -53,7 +53,7 @@ let balls = [
         z: -10,
         r: 0.75,
         camera: [10, 10, 10],
-        name: 'Strut J'
+        name: 'Strut J - Power Plant'
     },
     {
         x: 3,
@@ -61,7 +61,7 @@ let balls = [
         z: 4,
         r: 0.75,
         camera: [10, 10, 10],
-        name: 'Strut E'
+        name: 'Strut E - Heliport and Parcel Room'
     },
     {
         x: 3,
@@ -69,7 +69,7 @@ let balls = [
         z: -4,
         r: 0.75,
         camera: [10, 10, 10],
-        name: 'Strut L'
+        name: 'Strut L - Sewage Treatment Facility'
     },
     {
         x: -3,
@@ -77,7 +77,7 @@ let balls = [
         z: 4,
         r: 0.75,
         camera: [10, 10, 10],
-        name: 'Strut C'
+        name: 'Strut C - Dining Hall'
     },
     {
         x: -3,
@@ -85,7 +85,7 @@ let balls = [
         z: -4,
         r: 0.75,
         camera: [10, 10, 10],
-        name: 'Strut H'
+        name: 'Strut H - Warehouse and Heliport'
     },
     {
         x: 3,
@@ -93,7 +93,7 @@ let balls = [
         z: 8,
         r: 0.75,
         camera: [10, 10, 10],
-        name: 'Strut F'
+        name: 'Strut F - Warehouse'
     },
     {
         x: 3,
@@ -101,7 +101,7 @@ let balls = [
         z: -8,
         r: 0.75,
         camera: [10, 10, 10],
-        name: 'Strut K'
+        name: 'Strut K - Biochem Lab'
     },
     {
         x: -3,
@@ -109,7 +109,7 @@ let balls = [
         z: 8,
         r: 0.75,
         camera: [10, 10, 10],
-        name: 'Strut B'
+        name: 'Strut B - Transformer Room'
     },
     {
         x: -3,
@@ -117,7 +117,7 @@ let balls = [
         z: -8,
         r: 0.75,
         camera: [10, 10, 10],
-        name: 'Strut I'
+        name: 'Strut I - Assembley Facility'
     }
 ];
 
