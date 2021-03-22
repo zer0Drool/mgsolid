@@ -6,13 +6,16 @@ body {
     width: 100vw;
     height: 100vh;
     background-color: deeppink;
+    background: linear-gradient(black, grey);
 }
 
 p {
     position: absolute;
-    top: 0;
-    left: 0;
-    color: aqua;
+    z-index: -1;
+    bottom: 10px;
+    right: 10px;
+    color: lime;
     font-size: 26px;
+    font-family: 'Menlo';
     font-style: italic;
 }

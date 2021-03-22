@@ -1,4 +1,10 @@
 let scene, camera, renderer, rig, raycaster, mouse, container;
+let nameLabel = document.getElementById('name');
+let cameraDirection = {
+    x: ['positive', 'negative'],
+    y: ['positive', 'negative'],
+    z: ['positive', 'negative'],
+};
 
 let balls = [
     {
@@ -6,98 +12,112 @@ let balls = [
         y: 0,
         z: 2,
         r: 0.75,
-        camera: [10, 10, 10]
+        camera: [10, 10, 10],
+        name: 'Strut D'
     },
     {
         x: 0,
         y: 0,
         z: -2,
         r: 0.75,
-        camera: [-10, 6, -10]
+        camera: [-6, 8, -10],
+        name: 'Strut G'
     },
     {
         x: 0,
         y: 0,
         z: 6,
         r: 1.25,
-        camera: [10, 10, 10]
+        camera: [-10, 2.5, 8],
+        name: 'Shell 1 Core'
     },
     {
         x: 0,
         y: 0,
         z: -6,
         r: 1.25,
-        camera: [10, 10, 10]
+        camera: [10, 10, 10],
+        name: 'Shell 2 Core'
     },
     {
         x: 0,
         y: 0,
         z: 10,
         r: 0.75,
-        camera: [10, 10, 10]
+        camera: [10, 10, 10],
+        name: 'Strut A'
     },
     {
         x: 0,
         y: 0,
         z: -10,
         r: 0.75,
-        camera: [10, 10, 10]
+        camera: [10, 10, 10],
+        name: 'Strut J'
     },
     {
         x: 3,
         y: 0,
         z: 4,
         r: 0.75,
-        camera: [10, 10, 10]
+        camera: [10, 10, 10],
+        name: 'Strut E'
     },
     {
         x: 3,
         y: 0,
         z: -4,
         r: 0.75,
-        camera: [10, 10, 10]
+        camera: [10, 10, 10],
+        name: 'Strut L'
     },
     {
         x: -3,
         y: 0,
         z: 4,
         r: 0.75,
-        camera: [10, 10, 10]
+        camera: [10, 10, 10],
+        name: 'Strut C'
     },
     {
         x: -3,
         y: 0,
         z: -4,
         r: 0.75,
-        camera: [10, 10, 10]
+        camera: [10, 10, 10],
+        name: 'Strut H'
     },
     {
         x: 3,
         y: 0,
         z: 8,
         r: 0.75,
-        camera: [10, 10, 10]
+        camera: [10, 10, 10],
+        name: 'Strut F'
     },
     {
         x: 3,
         y: 0,
         z: -8,
         r: 0.75,
-        camera: [10, 10, 10]
+        camera: [10, 10, 10],
+        name: 'Strut K'
     },
     {
         x: -3,
         y: 0,
         z: 8,
         r: 0.75,
-        camera: [10, 10, 10]
+        camera: [10, 10, 10],
+        name: 'Strut B'
     },
     {
         x: -3,
         y: 0,
         z: -8,
         r: 0.75,
-        camera: [10, 10, 10]
+        camera: [10, 10, 10],
+        name: 'Strut I'
     }
 ];
 
@@ -343,7 +363,7 @@ function init() {
     mouse = new THREE.Vector2();
 
     const geometry = new THREE.BoxGeometry(20, 20, 20);
-    const material = new THREE.MeshPhongMaterial( { color: 0x00ff00, wireframe: true } );
+    const material = new THREE.MeshPhongMaterial( { color: 0x00ff00, opacity: 0, transparent: true } );
     container = new THREE.Mesh( geometry, material );
     scene.add(container);
 
@@ -378,6 +398,7 @@ function makeBalls(i) {
 
     sphere.highlight = true;
     sphere.cam = balls[i].camera;
+    sphere.name = balls[i].name;
     // console.log(sphere.highlight);
 
     sphere.position.set(balls[i].x, balls[i].y, balls[i].z);
@@ -439,11 +460,8 @@ function onClick() {
     const intersects = raycaster.intersectObjects(container.children);
     for (var i = 0; i < intersects.length; i++) {
         if (intersects[i].object.highlight) {
-            // console.log(intersects[i].object.position);
-            let pos = intersects[i].object.position;
             moveCamera(intersects[i].object.position, intersects[i].object.cam);
-            // camera.position.set(pos.x + 5, pos.y + 5, pos.z + 5);
-            // camera.lookAt(pos);
+            nameLabel.innerText = intersects[i].object.name;
         };
     };
 
