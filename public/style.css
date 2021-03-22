@@ -7,17 +7,19 @@ body {
     height: 100vh;
     background-color: deeppink;
     background: linear-gradient(black, grey);
+    /* filter: invert(100%); */
 }
 
 p {
     position: absolute;
     z-index: -1;
-    bottom: 10px;
-    right: 10px;
+    bottom: 26%;
+    right: 2%;
     color: lime;
     font-size: 16px;
     font-family: 'Menlo';
     font-style: italic;
+    filter: blur(0.5px);
 }
 
 #border-container {
@@ -35,4 +37,16 @@ p {
     width: 90%;
     height: 90%;
     border: 2px solid lime;
+    filter: blur(0.5px);
+}
+
+#border-two {
+    position: absolute;
+    width: 20vw;
+    height: 20vh;
+    right: 2%;
+    bottom: 2%;
+    border: 2px solid lime;
+    background-color: rgba(0, 255, 0, 0.1);
+    filter: blur(0.5px);
 }
