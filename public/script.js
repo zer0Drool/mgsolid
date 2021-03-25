@@ -226,7 +226,7 @@ function moveCamera(ball, pos) {
     // console.log('start', camera.rotation);
 
     // final rotation (with lookAt)
-    views[1].camera.position.set(pos[0], pos[1], pos[2]);
+    views[1].camera.position.set(ball.x + 7, 7, 10);
     views[1].camera.lookAt(ball);
     var endRotation = new THREE.Euler().copy(views[1].camera.rotation);
 
@@ -235,7 +235,7 @@ function moveCamera(ball, pos) {
     views[1].camera.position.copy(startPosition);
 
     var tweenMove = new TWEEN.Tween(views[1].camera.position)
-    .to({x: pos[0], y: pos[1], z: pos[2]}, 1000)
+    .to({x: ball.x + 7, y: 7, z: 10}, 1000)
     .easing(TWEEN.Easing.Quartic.InOut)
     .start();
 
