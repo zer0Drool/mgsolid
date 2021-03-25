@@ -517,36 +517,6 @@ function onClick() {
 
 };
 
-// function moveCamera(ball, pos) {
-
-//     console.log('move', pos);
-
-    // save original rotation and position
-    // var startRotation = new THREE.Euler().copy(camera.rotation);
-    // var startPosition = new THREE.Vector3().copy(camera.position);
-    // // console.log('start', camera.rotation);
-
-    // // final rotation (with lookAt)
-    // camera.position.set(pos[0], pos[1], pos[2]);
-    // camera.lookAt(ball);
-    // var endRotation = new THREE.Euler().copy(camera.rotation);
-
-    // // revert to original rotation and position
-    // camera.rotation.copy(startRotation);
-    // camera.position.copy(startPosition);
-
-    // var tweenMove = new TWEEN.Tween(container.rotation)
-    // .to({x:container.rotation.x, y: Math.PI / 4, z: container.rotation.z}, 1000)
-    // .easing(TWEEN.Easing.Quartic.InOut)
-    // .start();
-
-    // var tweenRotate = new TWEEN.Tween(camera.rotation)
-    // .to({x: endRotation.x, y: endRotation.y, z: endRotation.z}, 1000)
-    // .easing(TWEEN.Easing.Quartic.InOut)
-    // .start();
-
-// };
-
 function moveCamera(ball, pos) {
 
     console.log('move', pos);
@@ -557,7 +527,7 @@ function moveCamera(ball, pos) {
     // console.log('start', camera.rotation);
 
     // final rotation (with lookAt)
-    views[1].camera.position.set(pos[0], pos[1], pos[2]);
+    views[1].camera.position.set(ball.x + 7, 7, 10);
     views[1].camera.lookAt(ball);
     var endRotation = new THREE.Euler().copy(views[1].camera.rotation);
 
@@ -566,7 +536,7 @@ function moveCamera(ball, pos) {
     views[1].camera.position.copy(startPosition);
 
     var tweenMove = new TWEEN.Tween(views[1].camera.position)
-    .to({x: pos[0], y: pos[1], z: pos[2]}, 1000)
+    .to({x: ball.x + 7, y: 7, z: 10}, 1000)
     .easing(TWEEN.Easing.Quartic.InOut)
     .start();
 
