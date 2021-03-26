@@ -8,7 +8,6 @@ body {
     overflow: hidden;
     background-color: deeppink;
     background: linear-gradient(black, grey);
-    /* filter: invert(100%); */
 }
 
 #border {
@@ -16,7 +15,6 @@ body {
     width: 90%;
     height: 90%;
     border: 2px solid lime;
-    /* filter: blur(0.5px); */
 }
 
 p {
@@ -24,7 +22,6 @@ p {
     font-size: 16px;
     font-family: 'Menlo';
     font-style: italic;
-    /* filter: blur(0.5px); */
 }
 
 #info {
@@ -40,7 +37,6 @@ p {
     padding: 5px 10px;
     border: 2px solid lime;
     border-radius: 20px;
-    /* filter: blur(0.5px); */
     transition: background-color 0.2s ease-in-out;
 }
 
@@ -73,38 +69,36 @@ p {
     bottom: 2%;
     border: 2px solid lime;
     background-color: rgba(0, 255, 0, 0.1);
-    /* filter: blur(0.5px); */
 }
 
 #chat-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
     position: absolute;
     left: 2%;
     bottom: 2%;
     width: 400px;
+    height: 40vh;
+    overflow: hidden;
     /* background-color: blue; */
 }
 
 #chat {
     width: 100%;
+    /* margin-bottom: 20px; */
+    /* background-color: white; */
 }
 
 input {
-    width: 100%;
+    width: 98%;
     border: 2px solid lime;
     color: lime;
     font-size: 16px;
     font-family: 'Menlo';
     font-style: italic;
     margin-top: 5px;
-    /* filter: blur(0.5px); */
     user-select: none;
     outline: none;
     background-color: rgba(0, 255, 0, 0.1);
 }
-
-/* .new-user-popup {
-    position: absolute;
-    z-index: 15;
-    bottom: 0;
-    animation: float 3s ease-in-out;
-} */

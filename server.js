@@ -5,30 +5,31 @@ const app = express();
 
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
-//
+
+const {
+    checkMessage
+} = require('./functions/utils');
+
 // const device = require('express-device');
 // app.use(device.capture());
 
 app.use(express.static('./public'));
 
 io.on('connection', (socket) => {
-
-    console.log(socket.id);
-
     socket.on('new', data => {
-        console.log(data);
         socket.broadcast.emit('newUserJoined', {user: data.user})
     });
 
     socket.on('message', data => {
-        console.log(data);
+        let trimmed = data.text.trim().replace(/<|>/g, '');
+        if (!trimmed.length) return;
+
         io.emit('newChatMessage', {
-            text: data.text,
+            text: checkMessage(trimmed),
             user: data.user,
             id: data.id
         });
     });
-
 });
 
 app.get('/', (req, res) => {

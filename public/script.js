@@ -3,7 +3,7 @@ let windowWidth, windowHeight;
 
 let nameLabel = document.getElementById('name');
 
-let building = true;
+let building = false;
 
 const views = building ? [
     {
@@ -57,13 +57,13 @@ function init() {
             camera.position.x = 0;
             camera.position.y = 60;
             // camera.position.z = 0;
-            camera.position.z = -30;
+            camera.position.z = -40;
             camera.rotation.x = Math.PI / -2.0;
         } else {
             camera.position.fromArray( view.eye );
         };
 
-        camera.up.fromArray( view.up );
+        camera.up.fromArray( view.up )
 
         view.camera = camera;
 
@@ -110,7 +110,7 @@ function init() {
         makeConnectors(i);
     };
 
-    for (var i = 0; i < connectors.length; i++) {
+    for (var i = 0; i < curves.length; i++) {
         makeCurves(i);
     };
 
@@ -176,38 +176,28 @@ function makeConnectors(i) {
 };
 
 function makeCurves(i) {
-    //Create a closed wavey loop
-    const curve = new THREE.CatmullRomCurve3([
-        new THREE.Vector3( 0, 0, -22 ),
-        new THREE.Vector3( -5, 0, -25 ),
-        new THREE.Vector3( -10, 0, -40 ),
-    ]);
 
-    // const points = curve.getPoints( 50 );
-    // const geometry = new THREE.BufferGeometry().setFromPoints( points );
-    // const geometry = new THREE.TubeGeometry( curve, 20, 2, 8, false );
-    const params = {
-		spline: 'GrannyKnot',
-		scale: 0.5,
-		extrusionSegments: 10,
-		radiusSegments: 20,
-		closed: false,
-		animationView: false,
-		lookAhead: false,
-		cameraHelper: false,
-	};
+    let vectors = [];
 
-    const material = new THREE.MeshPhongMaterial( { color: 0x00ff00 } );
+    for (let j = 0; j < curves[i].c.length; j++) {
+        let vector = new THREE.Vector3(curves[i].c[j][0], curves[i].c[j][1], curves[i].c[j][2]);
+        vectors.push(vector);
+    };
 
-	const wireframeMaterial = new THREE.MeshBasicMaterial( { color: 0x000000, opacity: 0, wireframe: false, transparent: true } );
+    const path = new THREE.CatmullRomCurve3(vectors);
 
-    const geometry = new THREE.TubeGeometry( curve, params.extrusionSegments, 0.2, params.radiusSegments, params.closed );
+    const material = new THREE.MeshPhongMaterial({ color: 0x00ff00 });
+	const wireframeMaterial = new THREE.MeshBasicMaterial({ color: 0x000000, opacity: 0, wireframe: false, transparent: true });
 
-    mesh = new THREE.Mesh( geometry, material );
+    const geometry = new THREE.TubeGeometry( path, 100, curves[i].r, 20, false );
+
+    const curve = new THREE.Mesh( geometry, material );
 	const wireframe = new THREE.Mesh( geometry, wireframeMaterial );
-	mesh.add( wireframe );
+	curve.add(wireframe);
 
-	container.add( mesh );
+	container.add(curve);
+
+    // curve.rotation.z = curves[i].d;
 
 };
 
@@ -260,7 +250,7 @@ function moveCamera(ball, pos) {
     // console.log('start', camera.rotation);
 
     // final rotation (with lookAt)
-    views[1].camera.position.set(ball.x + 7, 7, 10);
+    views[1].camera.position.set(ball.x + 10, 20, ball.z + 15);
     views[1].camera.lookAt(ball);
     var endRotation = new THREE.Euler().copy(views[1].camera.rotation);
 
@@ -269,7 +259,7 @@ function moveCamera(ball, pos) {
     views[1].camera.position.copy(startPosition);
 
     var tweenMove = new TWEEN.Tween(views[1].camera.position)
-    .to({x: ball.x + 7, y: 7, z: 10}, 1000)
+    .to({x: ball.x + 10, y: 20, z: ball.z + 15}, 1000)
     .easing(TWEEN.Easing.Quartic.InOut)
     .start();
 
@@ -428,14 +418,14 @@ function rando(max, min){
     return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
-let socket = io.connect('http://localhost:8080');
+// let socket = io.connect('http://localhost:8080');
+let socket = io.connect('http://mgsolid.herokuapp.com/');
 
 socket.on('connect', () => {
 
     console.log(socket.id);
 
-    if (!building && window.localStorage.user) {
-
+    if (window.localStorage.user) {
         username.innerText = `user: ${window.localStorage.user}`;
 
         for (let i = 0; i < balls.length; i++) {
@@ -447,8 +437,7 @@ socket.on('connect', () => {
         localStorage.setItem('id', socket.id);
         console.log(window.localStorage);
 
-        newUserCreated();
-
+        emitUsername();
     } else {
         console.log('no local storage - generate user');
         generateUser(socket.id);
@@ -509,10 +498,11 @@ function generateUser(id) {
     };
     console.log('storage', window.localStorage);
 
-    newUserCreated();
+    emitUsername();
 };
 
-function newUserCreated() {
+
+function emitUsername() {
     socket.emit('new', {user: window.localStorage.user});
 };
 
