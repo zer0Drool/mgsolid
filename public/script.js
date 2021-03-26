@@ -30,7 +30,7 @@ const views = building ? [
         bottom: 0,
         width: 1,
         height: 1,
-        eye: [ 0, -1, 45 ],
+        eye: [ 0, -1, 35 ],
         up: [ 0, -1, 0 ],
         fov: 25
     },
@@ -60,7 +60,11 @@ function init() {
             camera.position.z = -40;
             camera.rotation.x = Math.PI / -2.0;
         } else {
-            camera.position.fromArray( view.eye );
+            camera.position.x = 10;
+            camera.position.y = 40;
+            camera.position.z = 0;
+            console.log('fuk', ii, camera.position);
+            // camera.position.fromArray( view.eye );
         };
 
         camera.up.fromArray( view.up )
@@ -119,6 +123,7 @@ function init() {
     // };
 
     console.log('end of init - camera 0 position', views[0].camera.position);
+    console.log('end of init - camera 1 position', views[1].camera.position);
 
 };
 
@@ -418,8 +423,8 @@ function rando(max, min){
     return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
-// let socket = io.connect('http://localhost:8080');
-let socket = io.connect('http://mgsolid.herokuapp.com/');
+let socket = io.connect('http://localhost:8080');
+// let socket = io.connect('http://mgsolid.herokuapp.com/');
 
 socket.on('connect', () => {
 

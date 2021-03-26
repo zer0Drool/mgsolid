@@ -6,7 +6,7 @@ body {
     width: 100vw;
     height: 100vh;
     overflow: hidden;
-    background-color: deeppink;
+    background-color: black;
     background: linear-gradient(black, grey);
 }
 
@@ -14,14 +14,13 @@ body {
     position: relative;
     width: 90%;
     height: 90%;
-    border: 2px solid lime;
+    border: 1px solid white;
 }
 
 p {
-    color: lime;
+    color: white;
     font-size: 16px;
-    font-family: 'Menlo';
-    font-style: italic;
+    font-family: 'Gruppo', cursive;
 }
 
 #info {
@@ -35,13 +34,13 @@ p {
     top: 2%;
     right: 2%;
     padding: 5px 10px;
-    border: 2px solid lime;
+    border: 1px solid white;
     border-radius: 20px;
     transition: background-color 0.2s ease-in-out;
 }
 
 #enter-button:hover {
-    background-color: rgba(0, 255, 0, 0.1);
+    background-color: rgba(255, 255, 255, 0.1);
     cursor: pointer;
 }
 
@@ -67,8 +66,8 @@ p {
     height: 20vh;
     right: 2%;
     bottom: 2%;
-    border: 2px solid lime;
-    background-color: rgba(0, 255, 0, 0.1);
+    border: 1px solid white;
+    background-color: rgba(255, 255, 255, 0.1);
 }
 
 #chat-container {
@@ -92,13 +91,12 @@ p {
 
 input {
     width: 98%;
-    border: 2px solid lime;
-    color: lime;
+    border: 1px solid white;
+    color: white;
     font-size: 16px;
-    font-family: 'Menlo';
-    font-style: italic;
+    font-family: 'Gruppo', cursive;
     margin-top: 5px;
     user-select: none;
     outline: none;
-    background-color: rgba(0, 255, 0, 0.1);
+    background-color: rgba(255, 255, 255, 0.1);
 }
