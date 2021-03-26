@@ -3,12 +3,6 @@ let windowWidth, windowHeight;
 
 let nameLabel = document.getElementById('name');
 
-let cameraDirection = {
-    x: ['positive', 'negative'],
-    y: ['positive', 'negative'],
-    z: ['positive', 'negative'],
-};
-
 let building = true;
 
 const views = building ? [
@@ -62,7 +56,8 @@ function init() {
         if (building && !ii) {
             camera.position.x = 0;
             camera.position.y = 60;
-            camera.position.z = -20;
+            // camera.position.z = 0;
+            camera.position.z = -30;
             camera.rotation.x = Math.PI / -2.0;
         } else {
             camera.position.fromArray( view.eye );
@@ -72,7 +67,7 @@ function init() {
 
         view.camera = camera;
 
-    }
+    };
 
     renderer = new THREE.WebGLRenderer({ alpha: true });
     renderer.setClearColor( 0xffffff, 0);
@@ -115,6 +110,10 @@ function init() {
         makeConnectors(i);
     };
 
+    for (var i = 0; i < connectors.length; i++) {
+        makeCurves(i);
+    };
+
     // for (var i = 0; i < legs.length; i++) {
     //     makeLegs(i);
     // };
@@ -154,6 +153,8 @@ function makeBoxes(i) {
     box.name = boxes[i].name;
     box.location = boxes[i].location;
 
+    box.rotation.y = boxes[i].d;
+
     box.position.set(boxes[i].x, boxes[i].y, boxes[i].z);
 
 };
@@ -168,12 +169,45 @@ function makeConnectors(i) {
     cylinder.highlight = false;
 
     cylinder.rotation.x = Math.PI / 2;
-
-    if (connectors[i].d) {
-        cylinder.rotation.z = connectors[i].d;
-    };
+    cylinder.rotation.z = connectors[i].d;
 
     cylinder.position.set(connectors[i].x, connectors[i].y, connectors[i].z);
+
+};
+
+function makeCurves(i) {
+    //Create a closed wavey loop
+    const curve = new THREE.CatmullRomCurve3([
+        new THREE.Vector3( 0, 0, -22 ),
+        new THREE.Vector3( -5, 0, -25 ),
+        new THREE.Vector3( -10, 0, -40 ),
+    ]);
+
+    // const points = curve.getPoints( 50 );
+    // const geometry = new THREE.BufferGeometry().setFromPoints( points );
+    // const geometry = new THREE.TubeGeometry( curve, 20, 2, 8, false );
+    const params = {
+		spline: 'GrannyKnot',
+		scale: 0.5,
+		extrusionSegments: 10,
+		radiusSegments: 20,
+		closed: false,
+		animationView: false,
+		lookAhead: false,
+		cameraHelper: false,
+	};
+
+    const material = new THREE.MeshPhongMaterial( { color: 0x00ff00 } );
+
+	const wireframeMaterial = new THREE.MeshBasicMaterial( { color: 0x000000, opacity: 0, wireframe: false, transparent: true } );
+
+    const geometry = new THREE.TubeGeometry( curve, params.extrusionSegments, 0.2, params.radiusSegments, params.closed );
+
+    mesh = new THREE.Mesh( geometry, material );
+	const wireframe = new THREE.Mesh( geometry, wireframeMaterial );
+	mesh.add( wireframe );
+
+	container.add( mesh );
 
 };
 
@@ -505,4 +539,3 @@ enterButton.addEventListener('click', enterClick);
 document.body.addEventListener('keypress', (e) => handleTyping(e));
 
 // ==========================================================================================
-
