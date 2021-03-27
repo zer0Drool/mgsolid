@@ -1,18 +1,20 @@
 const express = require('express');
-// const os = require('os');
-// const geoip = require('geoip-lite');
 const app = express();
+const bodyParser = require('body-parser');
 
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
 
 const {
-    checkMessage
+    checkMessage,
+    archiveAndStreamNFTs
 } = require('./functions/utils');
 
 // const device = require('express-device');
 // app.use(device.capture());
 
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 app.use(express.static('./public'));
 
 io.on('connection', (socket) => {
@@ -38,6 +40,15 @@ app.get('/', (req, res) => {
 
 app.get('/wisdomsforlove', (req, res) => {
     res.sendFile(__dirname + '/wisdomsforlove.html');
+});
+
+app.get('/download-tokens', (req, res) => {
+   console.log('downloading tokens', req.params);
+   archiveAndStreamNFTs(req.params, res);
+//    res.json({
+//        success: true,
+//        data: 'HERE YA GO M8'
+//    });
 });
 
 app.get('*', (req, res) => {

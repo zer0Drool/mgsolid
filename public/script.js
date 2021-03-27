@@ -3,7 +3,7 @@ let windowWidth, windowHeight;
 
 let nameLabel = document.getElementById('name');
 
-let building = false;
+let building = true;
 
 const views = building ? [
     {
@@ -54,17 +54,17 @@ function init() {
         const view = views[ ii ];
         const camera = new THREE.PerspectiveCamera( view.fov, window.innerWidth / window.innerHeight, 1, 10000 );
         if (building && !ii) {
-            camera.position.x = 0;
-            camera.position.y = 60;
+            camera.position.x = -5;
+            camera.position.y = 55;
             // camera.position.z = 0;
-            camera.position.z = -40;
+            camera.position.z = -50;
             camera.rotation.x = Math.PI / -2.0;
         } else {
-            camera.position.x = 10;
-            camera.position.y = 40;
-            camera.position.z = 0;
-            console.log('fuk', ii, camera.position);
-            // camera.position.fromArray( view.eye );
+            // camera.position.x = 10;
+            // camera.position.y = 40;
+            // camera.position.z = 0;
+            // console.log('fuk', ii, camera.position);
+            camera.position.fromArray( view.eye );
         };
 
         camera.up.fromArray( view.up )
@@ -416,6 +416,7 @@ animate();
 let username = document.getElementById('username');
 let currentLocation = document.getElementById('current-location');
 let enterButton = document.getElementById('enter-button');
+let downloadButton = document.getElementById('download-button');
 let chat = document.getElementById('chat');
 let input = document.getElementsByTagName('input')[0];
 
@@ -425,6 +426,33 @@ function rando(max, min){
 
 let socket = io.connect('http://localhost:8080');
 // let socket = io.connect('http://mgsolid.herokuapp.com/');
+
+const download_NFTs = NFTArray => {
+    console.log('downloading nfts');
+    axios.get('/download-tokens', {
+        params: {
+            NFTArray
+        },
+        responseType: 'blob'
+    }).then(response => {
+        let download_name = /attachment;\sfilename=(.+)/.test(response.headers['content-disposition']) ? response.headers['content-disposition'].match(/attachment;\sfilename=(.+)/)[1] : null;
+
+        try {
+            const downloadUrl = window.URL.createObjectURL(new Blob([response.data]));
+            const link = document.createElement('a');
+
+            link.href = downloadUrl;
+            link.setAttribute('download', download_name);
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+        } catch (error) {
+            console.log('fail', error);
+        };
+    }).catch(error => {
+        console.log('error @ download NFTs', error);
+    });
+};
 
 socket.on('connect', () => {
 
@@ -531,6 +559,7 @@ function handleTyping(e) {
 };
 
 enterButton.addEventListener('click', enterClick);
+downloadButton.addEventListener('click', download_NFTs);
 document.body.addEventListener('keypress', (e) => handleTyping(e));
 
 // ==========================================================================================
