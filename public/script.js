@@ -335,31 +335,39 @@ function moveCamera(ball, pos) {
         let posZ = 25;
         if (ball.z <= -10 && ball.z > -20) {
             console.log('one');
-            posZ = 15;
+            posZ = 5;
         };
         if (ball.z <= -20 && ball.z > -30) {
             console.log('two');
-            posZ = 5;
+            posZ = -15;
         };
         if (ball.z <= -30 && ball.z > -40) {
             console.log('three');
-            posZ = -5;
+            posZ = -35;
         };
         if (ball.z <= -40 && ball.z > -50) {
             console.log('four');
-            posZ = -15;
+            posZ = -55;
         };
         if (ball.z <= -50 && ball.z > -60) {
             console.log('five');
-            posZ = -25;
+            posZ = -75;
+        };
+        if (ball.z <= -60 && ball.z > -70) {
+            console.log('six');
+            posZ = -95;
+        };
+        if (ball.z <= -70 && ball.z > -80) {
+            console.log('seven');
+            posZ = -115;
         };
 
         console.log('z', posZ);
 
         // final rotation (with lookAt)
         views[i].camera.position.set(
-            i === 1 ? ball.x : ball.x + 25,
-            i === 1 ? 15 : ball.y + 25,
+            i === 1 ? ball.x : 25,
+            i === 1 ? 15 : 35,
             i === 1 ? ball.z : posZ
         );
         views[i].camera.lookAt(ball);
@@ -371,15 +379,15 @@ function moveCamera(ball, pos) {
 
         var tweenMove = new TWEEN.Tween(views[i].camera.position)
         .to({
-            x: i === 1 ? ball.x : ball.x + 25,
-            y: i === 1 ? 15 : ball.y + 25,
-            z: i === 1 ? ball.z : ball.z + 25
-        }, 1000)
-        .easing(TWEEN.Easing.Quartic.InOut)
+            x: i === 1 ? ball.x : 25,
+            y: i === 1 ? 15 : 35,
+            z: i === 1 ? ball.z : posZ
+        }, i === 1 ? 1000 : 2500)
+        .easing(i === 1 ? TWEEN.Easing.Quartic.InOut : TWEEN.Easing.Cubic.InOut)
         .start();
 
         var tweenRotate = new TWEEN.Tween(views[i].camera.rotation)
-        .to({x: endRotation.x, y: endRotation.y, z: endRotation.z}, 1000)
+        .to({x: endRotation.x, y: endRotation.y, z: endRotation.z}, i === 1 ? 1000 : 2500)
         .easing(TWEEN.Easing.Quartic.InOut)
         .start();
 
@@ -480,8 +488,8 @@ function animate() {
     };
 
     if (!building) {
-        views[0].camera.position.x = views[0].eye[0] + xAnim.val;
-        views[0].camera.position.y = views[0].eye[0] + yAnim.val;
+        views[0].camera.position.x = views[0].camera.position.x + xAnim.val;
+        views[0].camera.position.y = views[0].camera.position.y + yAnim.val;
         // views[0].camera.rotation.x += xRot.val;
         // views[0].camera.rotation.y += yRot.val;
         // views[0].camera.rotation.z = viewRotationZ;
