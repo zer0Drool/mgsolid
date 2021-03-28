@@ -1,4 +1,4 @@
-let scene, camera, renderer, rig, raycaster, mouse, container;
+let scene, camera, renderer, rig, raycaster, mouse, container, viewRotationX, viewRotationY;
 let windowWidth, windowHeight;
 
 let nameLabel = document.getElementById('name');
@@ -30,7 +30,7 @@ const views = building ? [
         bottom: 0,
         width: 1,
         height: 1,
-        eye: [ 25, 15, 30],
+        eye: [ 25, 25, 25],
         up: [ 0, -1, 0 ],
         fov: 25
     },
@@ -91,6 +91,9 @@ function init() {
 
     container.position.set(0, 0, 0);
     views[0].camera.lookAt(0, 0, -10);
+    viewRotationX = views[0].camera.rotation.x;
+    viewRotationY = views[0].camera.rotation.y;
+    viewRotationZ = views[0].camera.rotation.z;
 
     // if (building) {
         // container.rotation.x = Math.PI;
@@ -168,8 +171,9 @@ function makeBalls(i) {
 
 function makeBoxes(i) {
 
-    const geometry = new THREE.BoxGeometry(0.7, 0.7, boxes[i].l);
     // const material = new THREE.MeshPhongMaterial( { color: 0x00ff00 } );
+    // const geometry = new THREE.BoxGeometry(0.7, 0.7, boxes[i].l);
+    const geometry = new THREE.SphereGeometry(1.1, 40, 40);
     const material = new THREE.MeshPhongMaterial( {
         color: 0xb62cae,
         specular: 0xffff00,
@@ -195,15 +199,15 @@ function makeBoxes(i) {
     box.rotation.y = boxes[i].d;
     box.position.set(boxes[i].x, boxes[i].y, boxes[i].z);
 
-    let time = performance.now() * 0.003;
-    let k = rando(5, 1);
-    for (let i = 0; i < box.geometry.vertices.length; i++) {
-        let p = box.geometry.vertices[i];
-        p.normalize().multiplyScalar(rando(1.8, 1.3) + 1.7 * noise.perlin3(p.x * k + time, p.y * k + time, p.z * k));
-    };
-    box.geometry.verticesNeedUpdate = true;
-    box.geometry.computeVertexNormals();
-    box.geometry.normalsNeedUpdate = true;
+    // let time = performance.now() * 0.003;
+    // let k = rando(4.5, 2.2);
+    // for (let i = 0; i < box.geometry.vertices.length; i++) {
+    //     let p = box.geometry.vertices[i];
+    //     p.normalize().multiplyScalar(noise.perlin3(p.x * time, p.y * k, p.z * time));
+    // };
+    // box.geometry.verticesNeedUpdate = true;
+    // box.geometry.computeVertexNormals();
+    // box.geometry.normalsNeedUpdate = true;
 
 };
 
@@ -212,7 +216,8 @@ function makeConnectors(i) {
     const geometry = new THREE.CylinderGeometry(connectors[i].r, connectors[i].r, connectors[i].l, 64);
     // const material = new THREE.MeshPhongMaterial( { color: 0x00ff00 } );
     const material = new THREE.MeshPhongMaterial( {
-        color: 0xb62cae,
+        color: 0x0000ff,
+        // color: 0xb62cae,
         specular: 0xffff00,
         // diffuse: 0xcd5a5a,
         ambient: 0x000a55,
@@ -248,7 +253,8 @@ function makeCurves(i) {
 
     // const material = new THREE.MeshPhongMaterial({ color: 0x00ff00 });
     const material = new THREE.MeshPhongMaterial( {
-        color: 0xb62cae,
+        color: 0x0000ff,
+        // color: 0xb62cae,
         specular: 0xffff00,
         // diffuse: 0xcd5a5a,
         ambient: 0x000a55,
@@ -307,8 +313,10 @@ function onClick() {
     const intersects = raycaster.intersectObjects(container.children);
     for (var i = 0; i < intersects.length; i++) {
         if (intersects[i].object.highlight) {
-            moveCamera(intersects[i].object.position, intersects[i].object.cam);
+            moveCamera(intersects[i].object.position, intersects[i].object.location);
             nameLabel.innerText = intersects[i].object.name;
+            // views[0].eye[0] = intersects[i].object.location + 25;
+            // views[0].eye[1] = intersects[i].object.location + 25;
         };
     };
 
@@ -316,29 +324,66 @@ function onClick() {
 
 function moveCamera(ball, pos) {
 
-    // save original rotation and position
-    var startRotation = new THREE.Euler().copy(views[1].camera.rotation);
-    var startPosition = new THREE.Vector3().copy(views[1].camera.position);
-    // console.log('start', camera.rotation);
+    for (let i = 0; i < views.length; i++) {
 
-    // final rotation (with lookAt)
-    views[1].camera.position.set(ball.x + 10, 20, ball.z + 15);
-    views[1].camera.lookAt(ball);
-    var endRotation = new THREE.Euler().copy(views[1].camera.rotation);
+        // save original rotation and position
+        var startRotation = new THREE.Euler().copy(views[i].camera.rotation);
+        var startPosition = new THREE.Vector3().copy(views[i].camera.position);
+        // console.log('start', camera.rotation);
 
-    // revert to original rotation and position
-    views[1].camera.rotation.copy(startRotation);
-    views[1].camera.position.copy(startPosition);
+        console.log(ball.z);
+        let posZ = 25;
+        if (ball.z <= -10 && ball.z > -20) {
+            console.log('one');
+            posZ = 15;
+        };
+        if (ball.z <= -20 && ball.z > -30) {
+            console.log('two');
+            posZ = 5;
+        };
+        if (ball.z <= -30 && ball.z > -40) {
+            console.log('three');
+            posZ = -5;
+        };
+        if (ball.z <= -40 && ball.z > -50) {
+            console.log('four');
+            posZ = -15;
+        };
+        if (ball.z <= -50 && ball.z > -60) {
+            console.log('five');
+            posZ = -25;
+        };
 
-    var tweenMove = new TWEEN.Tween(views[1].camera.position)
-    .to({x: ball.x + 10, y: 20, z: ball.z + 15}, 1000)
-    .easing(TWEEN.Easing.Quartic.InOut)
-    .start();
+        console.log('z', posZ);
 
-    var tweenRotate = new TWEEN.Tween(views[1].camera.rotation)
-    .to({x: endRotation.x, y: endRotation.y, z: endRotation.z}, 1000)
-    .easing(TWEEN.Easing.Quartic.InOut)
-    .start();
+        // final rotation (with lookAt)
+        views[i].camera.position.set(
+            i === 1 ? ball.x : ball.x + 25,
+            i === 1 ? 15 : ball.y + 25,
+            i === 1 ? ball.z : posZ
+        );
+        views[i].camera.lookAt(ball);
+        var endRotation = new THREE.Euler().copy(views[i].camera.rotation);
+
+        // revert to original rotation and position
+        views[i].camera.rotation.copy(startRotation);
+        views[i].camera.position.copy(startPosition);
+
+        var tweenMove = new TWEEN.Tween(views[i].camera.position)
+        .to({
+            x: i === 1 ? ball.x : ball.x + 25,
+            y: i === 1 ? 15 : ball.y + 25,
+            z: i === 1 ? ball.z : ball.z + 25
+        }, 1000)
+        .easing(TWEEN.Easing.Quartic.InOut)
+        .start();
+
+        var tweenRotate = new TWEEN.Tween(views[i].camera.rotation)
+        .to({x: endRotation.x, y: endRotation.y, z: endRotation.z}, 1000)
+        .easing(TWEEN.Easing.Quartic.InOut)
+        .start();
+
+    };
 
 };
 
@@ -413,10 +458,6 @@ function animate() {
 
     };
 
-    if (container) {
-        // container.rotation.x += 0.002;
-    };
-
     if (!building) {
         xAnim.val += xAnim.forward ? xAnim.rate : -xAnim.rate;
         if (xAnim.forward && xAnim.val >= xAnim.max) xAnim.forward = false;
@@ -438,12 +479,13 @@ function animate() {
         if (!yRot.forward && yRot.val <= yRot.min) yRot.forward = true;
     };
 
-    // if (!building) {
-    //     views[0].camera.position.x = xAnim.val;
-    //     views[0].camera.position.y = yAnim.val;
-    //     views[0].camera.rotation.x = xRot.val;
-    //     views[0].camera.rotation.y = yRot.val;
-    // }
+    if (!building) {
+        views[0].camera.position.x = views[0].eye[0] + xAnim.val;
+        views[0].camera.position.y = views[0].eye[0] + yAnim.val;
+        // views[0].camera.rotation.x += xRot.val;
+        // views[0].camera.rotation.y += yRot.val;
+        // views[0].camera.rotation.z = viewRotationZ;
+    };
 
     for ( let ii = 0; ii < views.length; ++ ii ) {
         const view = views[ ii ];
