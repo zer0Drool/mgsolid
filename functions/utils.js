@@ -2,7 +2,6 @@ const fs = require('fs');
 const path = require('path');
 const uuid = require('uuid');
 const archiver = require('archiver');
-const PDFDocument = require('pdfkit');
 const dateformat = require('dateformat');
 const swears = require('./swears');
 
@@ -93,6 +92,17 @@ const archiveAndStreamNFTs = async (username, nFTarray, res) => {
         .stroke();
 
         jumpLine(doc, 10);
+
+        let imgBuffer = fs.readFileSync(map);
+
+        console.log(imgBuffer.toString('ascii', 3, 10));
+
+        doc.image(
+            imgBuffer,
+            {
+                width: 400
+            }
+        )
 
         doc.text(
             `Pokem ipsum dolor sit amet Ferrothorn Rhyhorn Masquerain Solrock Foongus Crobat. Pokemon 4Ever Shaymin Kanto Houndour Regirock Aerodactyl Pelipper. Ruby our courage will pull us through Zweilous Plusle Rare Candy Boldore Scrafty. Fire Red Leech Life Celadon Department Store you teach me and I'll teach you Mirror Move Wurmple Town Map. Blizzard Poliwhirl Alakazam Water Primeape Magneton Magikarp used Splash.`,

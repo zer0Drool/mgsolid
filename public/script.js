@@ -187,13 +187,23 @@ function makeBoxes(i) {
     box.castShadow = true;
     box.receiveShadow = true;
     box.highlight = true;
+    box.box = true;
     box.cam = boxes[i].camera;
     box.name = boxes[i].name;
     box.location = boxes[i].location;
 
     box.rotation.y = boxes[i].d;
-
     box.position.set(boxes[i].x, boxes[i].y, boxes[i].z);
+
+    let time = performance.now() * 0.003;
+    let k = rando(5, 1);
+    for (let i = 0; i < box.geometry.vertices.length; i++) {
+        let p = box.geometry.vertices[i];
+        p.normalize().multiplyScalar(rando(1.8, 1.3) + 1.7 * noise.perlin3(p.x * k + time, p.y * k + time, p.z * k));
+    };
+    box.geometry.verticesNeedUpdate = true;
+    box.geometry.computeVertexNormals();
+    box.geometry.normalsNeedUpdate = true;
 
 };
 
@@ -382,16 +392,6 @@ function animate() {
         // update(container.children[i]);
         if (container.children[i].highlight) {
             container.children[i].material.color.set(0xff1493);
-
-            let time = performance.now() * 0.0003;
-            let k = 2;
-            for (let i = 0; i < container.children[i].geometry.vertices.length; i++) {
-                let p = container.children[i].geometry.vertices[i];
-                p.normalize().multiplyScalar(1 + 0.7 * noise.perlin2(p.x * k + time, p.y * k + time));
-            };
-            container.children[i].geometry.verticesNeedUpdate = true;
-            container.children[i].geometry.computeVertexNormals();
-            container.children[i].geometry.normalsNeedUpdate = true;
 
             if (container.children[i].location == window.localStorage.location) {
                 container.children[i].material.color.set(0xffffff);
