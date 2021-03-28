@@ -43,12 +43,12 @@ app.get('/wisdomsforlove', (req, res) => {
 });
 
 app.get('/download-tokens', (req, res) => {
-   console.log('downloading tokens', req.params);
-   archiveAndStreamNFTs(req.params, res);
-//    res.json({
-//        success: true,
-//        data: 'HERE YA GO M8'
-//    });
+    console.log('downloading tokens', req.query);
+    if (!req.query.username) {
+        res.status(400).send('invalid username');
+    } else {
+        archiveAndStreamNFTs(req.query.username, req.query.nFTarray, res);
+    };
 });
 
 app.get('*', (req, res) => {

@@ -2,6 +2,8 @@ const fs = require('fs');
 const path = require('path');
 const uuid = require('uuid');
 const archiver = require('archiver');
+const PDFDocument = require('pdfkit');
+const dateformat = require('dateformat');
 const swears = require('./swears');
 
 const checkMessage = message => {
@@ -27,38 +29,21 @@ const checkMessage = message => {
     return stringToReturn;
 };
 
-// app.post('/download', function(request, response) {
+function jumpLine(doc, lines) {
+    for (let index = 0; index < lines; index++) {
+      doc.moveDown();
+    };
+};
 
-//     var icons = request.body;
-//     var filename = 'icons.zip';
+const archiveAndStreamNFTs = async (username, nFTarray, res) => {
+    let assets = path.join(__dirname + '/../downloadable_assets');
+    let tmp = path.join(__dirname + '/../tmp');
+    let font = path.join(__dirname + 'fonts/Pacifico.ttf');
+    let map = path.join(__dirname + '/doc_assets/map.PNG');
 
-//     response.attachment(filename);
+    let docname;
 
-//     var zip = Archiver('zip');
-
-    // zip.on('finish', function(error) {
-    //   return response.end();
-    // });
-
-//     zip.pipe(response);
-
-//     for (var i = 0; i < icons.length; i++) {
-
-//       var icon = getIcon(icons[i]);
-//       zip.append(fs.createReadStream('public/' + icon.svg), { name: icon.title + '.svg' });
-//     }
-
-//     zip.finalize();
-// });
-
-const archiveAndStreamNFTs = (NFTarray, res) => {
-    console.log('archiveAndStreamNFTs');
     try {
-        let filename = `${uuid.v4()}.zip`;
-        let pathToAssets = path.join(__dirname + '/../downloadable_assets');
-
-        // let tmp = path.join(__dirname + '/../tmp');
-        // fs.mkdirSync(`${tmp}/${filename}`);
 
         let archive = archiver('zip', {
             zlib: { level: 9 }
@@ -72,17 +57,75 @@ const archiveAndStreamNFTs = (NFTarray, res) => {
             return res.end();
         });
 
-        res.attachment(filename);
+        res.attachment(`${username}_x_keiken.zip`);
 
         archive.pipe(res);
 
-        archive.append(fs.createReadStream(`${pathToAssets}/one.txt`), { name: 'hahaha.txt' });
+        //generate pdf
+        const doc = new PDFDocument();
+        docname = `${uuid.v4()}.pdf`;
+
+        doc.pipe(fs.createWriteStream(`${tmp}/${docname}`));
+
+        doc.font('Courier-Oblique');
+
+        let grad = doc.linearGradient((doc.page.width / 2), 0, (doc.page.width / 2), (doc.page.height));
+
+        grad
+        .stop(0, '#000')
+        .stop(1, '#808080');
+
+        doc
+        .rect(0, 0, doc.page.width, doc.page.height)
+        .fill(grad);
+
+        const distanceMargin = 10;
+
+        doc
+        .fillAndStroke('#ffffff')
+        .lineWidth(1)
+        .rect(
+            distanceMargin,
+            distanceMargin,
+            doc.page.width - distanceMargin * 2,
+            doc.page.height - distanceMargin * 2,
+        )
+        .stroke();
+
+        jumpLine(doc, 10);
+
+        doc.text(
+            `Pokem ipsum dolor sit amet Ferrothorn Rhyhorn Masquerain Solrock Foongus Crobat. Pokemon 4Ever Shaymin Kanto Houndour Regirock Aerodactyl Pelipper. Ruby our courage will pull us through Zweilous Plusle Rare Candy Boldore Scrafty. Fire Red Leech Life Celadon Department Store you teach me and I'll teach you Mirror Move Wurmple Town Map. Blizzard Poliwhirl Alakazam Water Primeape Magneton Magikarp used Splash.`,
+            {
+                width: 410,
+                align: 'center'
+            }
+        );
+
+        doc.end();
+
+        let date = dateformat(new Date(), 'yyyymmdd');
+
+        archive.append(fs.createReadStream(`${tmp}/${docname}`), { name: `${username}_NFT_contract_x_keiken _${date}.pdf` });
+
+        for (const nFT of nFTarray) {
+            if (fs.existsSync(`${assets}/${nFT}.txt`)) {
+                archive.append(fs.createReadStream(`${assets}/${nFT}.txt`), { name: `${nFT}.txt` });
+            };
+        };
 
         archive.finalize();
     } catch (error) {
-        console.log('caught error in archive n stream', error);
+        console.error('caught error in archive in stream', error);
+        res.status(500).send('something went wrong');
     } finally {
-        console.log('finally');
+        if (docname && fs.existsSync(`${tmp}/${docname}`)) {
+            fs.unlink(`${tmp}/${docname}`, error => {
+                if (error) {
+                    console.error('error deleting pdf', error)
+                };
+            });
+        };
     };
 };
 

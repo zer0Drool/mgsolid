@@ -3,7 +3,7 @@ let windowWidth, windowHeight;
 
 let nameLabel = document.getElementById('name');
 
-let building = true;
+let building = false;
 
 const views = building ? [
     {
@@ -30,7 +30,7 @@ const views = building ? [
         bottom: 0,
         width: 1,
         height: 1,
-        eye: [ 0, -1, 35 ],
+        eye: [ 25, 15, 30],
         up: [ 0, -1, 0 ],
         fov: 25
     },
@@ -54,11 +54,11 @@ function init() {
         const view = views[ ii ];
         const camera = new THREE.PerspectiveCamera( view.fov, window.innerWidth / window.innerHeight, 1, 10000 );
         if (building && !ii) {
-            camera.position.x = -5;
-            camera.position.y = 55;
+            camera.position.x = 70;
+            camera.position.y = 0;
+            camera.position.z = 120;
             // camera.position.z = 0;
-            camera.position.z = -50;
-            camera.rotation.x = Math.PI / -2.0;
+            // camera.rotation.z = Math.PI / 2;
         } else {
             // camera.position.x = 10;
             // camera.position.y = 40;
@@ -67,7 +67,7 @@ function init() {
             camera.position.fromArray( view.eye );
         };
 
-        camera.up.fromArray( view.up )
+        // camera.up.fromArray( view.up )
 
         view.camera = camera;
 
@@ -77,30 +77,37 @@ function init() {
     renderer.setClearColor( 0xffffff, 0);
     renderer.gammaOutput = true;
     renderer.gammaFactor = 2.2;
+    renderer.shadowMapEnabled = true;
     renderer.setSize( window.innerWidth, window.innerHeight );
     document.body.appendChild( renderer.domElement );
 
     raycaster = new THREE.Raycaster();
     mouse = new THREE.Vector2();
 
-    const geometry = new THREE.BoxGeometry(20, 20, 20);
-    const material = new THREE.MeshPhongMaterial( { color: 0x00ff00, opacity: 0, transparent: true } );
+    const geometry = new THREE.BoxGeometry(10, 10, 10);
+    const material = new THREE.MeshPhongMaterial( { color: 0x00ff00, opacity: 0, transparent: true, wireframe: false } );
     container = new THREE.Mesh( geometry, material );
     scene.add(container);
 
     container.position.set(0, 0, 0);
+    views[0].camera.lookAt(0, 0, -10);
 
-    if (building) {
-        container.rotation.x = 0;
-        container.rotation.y = 0;
-    } else {
-        container.rotation.x = Math.PI / 8;
-        container.rotation.y = Math.PI / -7;
-    }
+    // if (building) {
+        // container.rotation.x = Math.PI;
+        // container.rotation.y = Math.PI / -2;
+        // container.rotation.z = Math.PI / 2;
+    // } else {
+        // container.rotation.x = Math.PI / 8;
+        // container.rotation.y = Math.PI / -7;
+    // }
 
-    var directionalLight = new THREE.DirectionalLight(0xffffff, 1);
-    directionalLight.position.set(20, 20, 20);
+    var directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
+    directionalLight.position.set(30, 80, 10);
     scene.add( directionalLight );
+
+    directionalLight.castShadow = true;
+    directionalLight.shadowDarkness = 0.5;
+    directionalLight.shadowCameraVisible = true;
 
     for (var i = 0; i < balls.length; i++) {
         makeBalls(i);
@@ -130,10 +137,23 @@ function init() {
 function makeBalls(i) {
 
     const geometry = new THREE.SphereGeometry(balls[i].r, 32, 32);
-    const material = new THREE.MeshPhongMaterial( { color: 0x00ff00 } );
+    // const material = new THREE.MeshPhongMaterial( { color: 0x00ff00 } );
+    const material = new THREE.MeshPhongMaterial( {
+        color: 0xb62cae,
+        specular: 0xffff00,
+        // diffuse: 0xcd5a5a,
+        ambient: 0x000a55,
+        emissive: 0x6b1566,
+        // envMap: envMap,
+        // combine: THREE.MultiplyOperation,
+        shininess: 20,
+        // reflectivity: 1.0
+    } );
     sphere = new THREE.Mesh( geometry, material );
     container.add(sphere);
 
+    sphere.castShadow = true;
+    sphere.receiveShadow = true;
     sphere.highlight = true;
     sphere.cam = balls[i].camera;
     sphere.name = balls[i].name;
@@ -149,10 +169,23 @@ function makeBalls(i) {
 function makeBoxes(i) {
 
     const geometry = new THREE.BoxGeometry(0.7, 0.7, boxes[i].l);
-    const material = new THREE.MeshPhongMaterial( { color: 0x00ff00 } );
+    // const material = new THREE.MeshPhongMaterial( { color: 0x00ff00 } );
+    const material = new THREE.MeshPhongMaterial( {
+        color: 0xb62cae,
+        specular: 0xffff00,
+        // diffuse: 0xcd5a5a,
+        ambient: 0x000a55,
+        emissive: 0x6b1566,
+        // envMap: envMap,
+        // combine: THREE.MultiplyOperation,
+        shininess: 20,
+        // reflectivity: 1.0
+    } );
     box = new THREE.Mesh( geometry, material );
     container.add(box);
 
+    box.castShadow = true;
+    box.receiveShadow = true;
     box.highlight = true;
     box.cam = boxes[i].camera;
     box.name = boxes[i].name;
@@ -167,12 +200,24 @@ function makeBoxes(i) {
 function makeConnectors(i) {
 
     const geometry = new THREE.CylinderGeometry(connectors[i].r, connectors[i].r, connectors[i].l, 64);
-    const material = new THREE.MeshPhongMaterial( { color: 0x00ff00 } );
+    // const material = new THREE.MeshPhongMaterial( { color: 0x00ff00 } );
+    const material = new THREE.MeshPhongMaterial( {
+        color: 0xb62cae,
+        specular: 0xffff00,
+        // diffuse: 0xcd5a5a,
+        ambient: 0x000a55,
+        emissive: 0x6b1566,
+        // envMap: envMap,
+        // combine: THREE.MultiplyOperation,
+        shininess: 20,
+        // reflectivity: 1.0
+    } );
     cylinder = new THREE.Mesh( geometry, material );
     container.add(cylinder);
 
+    cylinder.castShadow = true;
+    cylinder.receiveShadow = true;
     cylinder.highlight = false;
-
     cylinder.rotation.x = Math.PI / 2;
     cylinder.rotation.z = connectors[i].d;
 
@@ -191,7 +236,18 @@ function makeCurves(i) {
 
     const path = new THREE.CatmullRomCurve3(vectors);
 
-    const material = new THREE.MeshPhongMaterial({ color: 0x00ff00 });
+    // const material = new THREE.MeshPhongMaterial({ color: 0x00ff00 });
+    const material = new THREE.MeshPhongMaterial( {
+        color: 0xb62cae,
+        specular: 0xffff00,
+        // diffuse: 0xcd5a5a,
+        ambient: 0x000a55,
+        emissive: 0x6b1566,
+        // envMap: envMap,
+        // combine: THREE.MultiplyOperation,
+        shininess: 20,
+        // reflectivity: 1.0
+    } );
 	const wireframeMaterial = new THREE.MeshBasicMaterial({ color: 0x000000, opacity: 0, wireframe: false, transparent: true });
 
     const geometry = new THREE.TubeGeometry( path, 100, curves[i].r, 20, false );
@@ -202,7 +258,8 @@ function makeCurves(i) {
 
 	container.add(curve);
 
-    // curve.rotation.z = curves[i].d;
+    curve.castShadow = true;
+    curve.receiveShadow = false;
 
 };
 
@@ -324,7 +381,18 @@ function animate() {
     for (var i = 0; i < container.children.length; i++) {
         // update(container.children[i]);
         if (container.children[i].highlight) {
-            container.children[i].material.color.set(0x00ff00);
+            container.children[i].material.color.set(0xff1493);
+
+            let time = performance.now() * 0.0003;
+            let k = 2;
+            for (let i = 0; i < container.children[i].geometry.vertices.length; i++) {
+                let p = container.children[i].geometry.vertices[i];
+                p.normalize().multiplyScalar(1 + 0.7 * noise.perlin2(p.x * k + time, p.y * k + time));
+            };
+            container.children[i].geometry.verticesNeedUpdate = true;
+            container.children[i].geometry.computeVertexNormals();
+            container.children[i].geometry.normalsNeedUpdate = true;
+
             if (container.children[i].location == window.localStorage.location) {
                 container.children[i].material.color.set(0xffffff);
             };
@@ -370,12 +438,12 @@ function animate() {
         if (!yRot.forward && yRot.val <= yRot.min) yRot.forward = true;
     };
 
-    if (!building) {
-        views[0].camera.position.x = xAnim.val;
-        views[0].camera.position.y = yAnim.val;
-        views[0].camera.rotation.x = xRot.val;
-        views[0].camera.rotation.y = yRot.val;
-    }
+    // if (!building) {
+    //     views[0].camera.position.x = xAnim.val;
+    //     views[0].camera.position.y = yAnim.val;
+    //     views[0].camera.rotation.x = xRot.val;
+    //     views[0].camera.rotation.y = yRot.val;
+    // }
 
     for ( let ii = 0; ii < views.length; ++ ii ) {
         const view = views[ ii ];
@@ -427,11 +495,19 @@ function rando(max, min){
 let socket = io.connect('http://localhost:8080');
 // let socket = io.connect('http://mgsolid.herokuapp.com/');
 
-const download_NFTs = NFTArray => {
-    console.log('downloading nfts');
+const download_NFTs = () => {
+    let nFTarray = [
+        'one',
+        'two',
+        'three',
+        'four',
+        'five'
+    ];
+
     axios.get('/download-tokens', {
         params: {
-            NFTArray
+            username: window.localStorage.user ? window.localStorage.user : false,
+            nFTarray
         },
         responseType: 'blob'
     }).then(response => {
