@@ -173,9 +173,6 @@ function makeBalls(i) {
     // console.log(sphere.location);
 
     sphere.position.set(balls[i].x, balls[i].y, balls[i].z);
-
-    // console.log(sphere);
-
 };
 
 function makeBoxes(i) {
@@ -555,6 +552,7 @@ function rando(max, min){
 };
 
 // let socket = io.connect('http://localhost:8080');
+// let socket = io.connect('http://192.168.1.250:8080');
 let socket = io.connect('http://mgsolid.herokuapp.com/');
 
 const openNFTwarning = () => {
@@ -568,7 +566,6 @@ const openNFTwarning = () => {
     setTimeout(() => {
         nFTWarning.style.opacity = 1;
     }, 10);
-
 };
 
 const clostNFTwarning = () => {
@@ -600,7 +597,7 @@ const download_NFTs = () => {
         },
         responseType: 'blob'
     }).then(response => {
-        let download_name = /attachment;\sfilename=(.+)/.test(response.headers['content-disposition']) ? response.headers['content-disposition'].match(/attachment;\sfilename=(.+)/)[1] : null;
+        let download_name = /attachment;\sfilename=(.+)/.test(response.headers['content-disposition']) ? response.headers['content-disposition'].match(/attachment;\sfilename=(.+)/)[1].replace(/^_|_$/g, '') : null;
 
         try {
             const downloadUrl = window.URL.createObjectURL(new Blob([response.data]));

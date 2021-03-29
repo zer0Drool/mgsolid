@@ -12,6 +12,7 @@ let whatModal = {
 };
 
 // let socket = io.connect('http://localhost:8080');
+// let socket = io.connect('http://192.168.1.250:8080');
 let socket = io.connect('http://mgsolid.herokuapp.com/');
 
 let generatedName = null;
