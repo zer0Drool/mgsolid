@@ -597,7 +597,9 @@ const download_NFTs = () => {
         },
         responseType: 'blob'
     }).then(response => {
-        let download_name = /attachment;\sfilename=(.+)/.test(response.headers['content-disposition']) ? response.headers['content-disposition'].match(/attachment;\sfilename=(.+)/)[1].replace(/^_|_$/g, '') : null;
+        let download_name = /attachment;\sfilename=(.+)/.test(response.headers['content-disposition']) ? response.headers['content-disposition'].match(/attachment;\sfilename=_?(.+)_?/)[1].replace(/^_|_$/g, '') : null;
+
+        console.log('DOWNLOADN NAME', download_name);
 
         try {
             const downloadUrl = window.URL.createObjectURL(new Blob([response.data]));
