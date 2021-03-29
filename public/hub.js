@@ -601,6 +601,8 @@ const download_NFTs = () => {
 
         console.log('DOWNLOADN NAME', download_name);
 
+        download_name = download_name.replace(/"/g, '');
+
         try {
             const downloadUrl = window.URL.createObjectURL(new Blob([response.data]));
             const link = document.createElement('a');
