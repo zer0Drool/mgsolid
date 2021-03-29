@@ -43,6 +43,7 @@ app.get('/wisdomsforlove', (req, res) => {
 });
 
 app.get('/download-tokens', (req, res) => {
+console.log('made it to download tokens');
     if (!req.query.username) {
         res.status(400).send('invalid username');
     } else {

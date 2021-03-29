@@ -221,7 +221,6 @@ function makeBoxes(i) {
 };
 
 function makeConnectors(i) {
-
     const geometry = new THREE.CylinderGeometry(connectors[i].r, connectors[i].r, connectors[i].l, 64);
     // const material = new THREE.MeshPhongMaterial( { color: 0x00ff00 } );
     const material = new THREE.MeshPhongMaterial( {
