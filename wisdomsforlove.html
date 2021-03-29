@@ -19,7 +19,11 @@
         mapButton.addEventListener('click', backToMap);
 
         function backToMap() {
-            window.location.href = '/';
+            window.location.replace('/hub');
+        };
+
+        if (!localStorage.user) {
+            window.location.replace('/');
         };
 
     </script>
@@ -28,7 +32,7 @@
 <tw-storydata name="wisdomsforlove3-0" startnode="12" creator="Twine" creator-version="2.3.13" ifid="98D50D0A-1399-4962-BE50-717D50A07E02" zoom="0.6" format="Harlowe" format-version="3.2.1" options="" hidden><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css">@import url('https://fonts.googleapis.com/css2?family=Ballet&family=Gruppo&display=swap');
 
 
-body, 
+body,
 tw-story {
   text-align: center;
   letter-spacing: 2px;
@@ -109,7 +113,7 @@ tw-link:hover[tags~="waaeos"] {
 }
 
 
-tw-link:active, 
+tw-link:active,
 tw-link:focus {
   outline: 0;
   border: none;
@@ -201,10 +205,10 @@ tw-passage[tags~="ve-g"] tw-sidebar {
 .progress_text {
   margin: auto;
   width: 150px;
-  
+
   /*max-width:80%;
   overflow: hidden;*/
-  
+
   position: fixed;
   top: 111px;
   left: 73vw;
@@ -221,7 +225,7 @@ tw-passage[tags~="ve-g"] tw-sidebar {
   border-radius: 50px;
   position: relative;
   overflow: hidden;
-  
+
   position: fixed;
   top: 120px;
   right: 75px;
@@ -286,7 +290,7 @@ tw-passage[tags~="ve-g"] tw-sidebar {
   border: 0.4px solid #fff;
   border-radius: 50px;
   padding: 10px 0;
-  
+
   position: fixed;
   top: 50px;
   left: 82.5vw;
@@ -318,7 +322,7 @@ tw-passage[tags~="ve-g"] tw-sidebar {
   justify-content: center;
   align-items: center;
   align-content: center;
-  
+
   position: fixed;
   top: 0;
   left: 0;
@@ -326,7 +330,7 @@ tw-passage[tags~="ve-g"] tw-sidebar {
   height: 100vh;
   opacity: 0;
   z-index: 99;
-  
+
   background-color: rgba(255, 255, 255, 0.3);
   -webkit-backdrop-filter: blur(4px);
   backdrop-filter: blur(4px);
@@ -401,16 +405,16 @@ tw-passage[tags~="ve-g"] tw-sidebar {
   width:200px;
   height:200px;
   position: relative;
-  
+
   -webkit-transition: all 50ms ease-in;
-  -webkit-transform: scale(1); 
+  -webkit-transform: scale(1);
   -ms-transition: all 50ms ease-in;
-  -ms-transform: scale(1); 
+  -ms-transform: scale(1);
   -moz-transition: all 50ms ease-in;
   -moz-transform: scale(1);
   transition: all 50ms ease-in;
-  
-  transform: scale(1);   
+
+  transform: scale(1);
   background-color: RGBA(0,0,0,0.3);
   -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
@@ -420,16 +424,16 @@ tw-passage[tags~="ve-g"] tw-sidebar {
   z-index: 2;
   border: 0.3px solid white;
   background-color: RGBA(0,0,0,0.4);
-  
+
   -webkit-transition: all 50ms ease-in;
   -webkit-transform: scale(1.5);
   -ms-transition: all 50ms ease-in;
-  -ms-transform: scale(1.5);   
+  -ms-transform: scale(1.5);
   -moz-transition: all 50ms ease-in;
   -moz-transform: scale(1.5);
   transition: all 50ms ease-in;
-  
-  transform: scale(1.5); 
+
+  transform: scale(1.5);
 }
 
 
@@ -486,7 +490,7 @@ tw-passage[tags~="ve-g"] tw-sidebar {
 .progress71a {animation: time 111s forwards;}
 
 @keyframes time {from {width: 250px;} to {width: 1px;} }
-	
+
 .progress.pause, .progress1a.pause, .progress1b.pause, .progress2a.pause, .progress2b.pause, .progress3a.pause, .progress3b.pause,.progress3c.pause, .progress43a.pause,.progress43b.pause  .progress42a.pause, .progress41b.pause, .progress41a.pause, .progress51b.pause, .progress53a.pause, .progress7b.pause, .progress52a.pause, .progress73a.pause, .progress81a.pause, .progress51a.pause, .progress71a.pause {
 	animation-play-state: paused;
 }
@@ -535,7 +539,7 @@ tw-passage[tags~="ve-g"] tw-sidebar {
     top: 0;
     z-index; -10;
     height: 100vh;
-    width: 100vw;  
+    width: 100vw;
 }</style><script role="script" id="twine-user-script" type="text/twine-javascript">window.hacks = window.hacks || {
     _engine : Engine
 };
@@ -556,7 +560,7 @@ hacks.goto = hacks._engine.showPassage;
 Let me show you this game. You might not know where you are or why you are here. It seems as though it is predetermined. Inside your womb you carry your Wisdom Tokens.
 
 
-DURING GAMEPLAY PRESS ON THE WISDOM TOKENS TO LEARN 
+DURING GAMEPLAY PRESS ON THE WISDOM TOKENS TO LEARN
 MORE ABOUT WHAT YOU CARRY WITHIN.
 
 
@@ -645,10 +649,10 @@ console.log(window.localStorage);
 
 
 &lt;script&gt;
-function pauseVid() { 
-  vid.pause(); 
-} 
-  
+function pauseVid() {
+  vid.pause();
+}
+
 $(&quot;.button&quot;).click(function(){
 	$(&quot;.button&quot;).addClass(&quot;inventory-on&quot;);
     $(&quot;.container&quot;).addClass(&quot;container-on&quot;);
@@ -657,9 +661,9 @@ $(&quot;.button&quot;).click(function(){
 	$( &quot;.click-me&quot; ).addClass( &quot;click-me-off&quot; );
 });
 
-function playVid() { 
-  vid.play(); 
-} 
+function playVid() {
+  vid.play();
+}
 
 $(&quot;.x&quot;).click(function(){
 	$(&quot;.button&quot;).removeClass(&quot;inventory-on&quot;);
@@ -757,10 +761,10 @@ console.log(window.localStorage);
 
 
 &lt;script&gt;
-function pauseVid() { 
-  vid.pause(); 
-} 
-  
+function pauseVid() {
+  vid.pause();
+}
+
 $(&quot;.button&quot;).click(function(){
 	$(&quot;.button&quot;).addClass(&quot;inventory-on&quot;);
     $(&quot;.container&quot;).addClass(&quot;container-on&quot;);
@@ -769,9 +773,9 @@ $(&quot;.button&quot;).click(function(){
 	$( &quot;.click-me&quot; ).addClass( &quot;click-me-off&quot; );
 });
 
-function playVid() { 
-  vid.play(); 
-} 
+function playVid() {
+  vid.play();
+}
 
 $(&quot;.x&quot;).click(function(){
 	$(&quot;.button&quot;).removeClass(&quot;inventory-on&quot;);
@@ -842,10 +846,10 @@ console.log(window.localStorage);
 
 
 &lt;script&gt;
-function pauseVid() { 
-  vid.pause(); 
-} 
-  
+function pauseVid() {
+  vid.pause();
+}
+
 $(&quot;.button&quot;).click(function(){
 	$(&quot;.button&quot;).addClass(&quot;inventory-on&quot;);
     $(&quot;.container&quot;).addClass(&quot;container-on&quot;);
@@ -854,9 +858,9 @@ $(&quot;.button&quot;).click(function(){
 	$( &quot;.click-me&quot; ).addClass( &quot;click-me-off&quot; );
 });
 
-function playVid() { 
-  vid.play(); 
-} 
+function playVid() {
+  vid.play();
+}
 
 $(&quot;.x&quot;).click(function(){
 	$(&quot;.button&quot;).removeClass(&quot;inventory-on&quot;);
@@ -970,10 +974,10 @@ console.log(window.localStorage);
 
 
 &lt;script&gt;
-function pauseVid() { 
-  vid.pause(); 
-} 
-  
+function pauseVid() {
+  vid.pause();
+}
+
 $(&quot;.button&quot;).click(function(){
 	$(&quot;.button&quot;).addClass(&quot;inventory-on&quot;);
     $(&quot;.container&quot;).addClass(&quot;container-on&quot;);
@@ -982,9 +986,9 @@ $(&quot;.button&quot;).click(function(){
 	$( &quot;.click-me&quot; ).addClass( &quot;click-me-off&quot; );
 });
 
-function playVid() { 
-  vid.play(); 
-} 
+function playVid() {
+  vid.play();
+}
 
 $(&quot;.x&quot;).click(function(){
 	$(&quot;.button&quot;).removeClass(&quot;inventory-on&quot;);
@@ -1063,10 +1067,10 @@ console.log(window.localStorage);
 
 
 &lt;script&gt;
-function pauseVid() { 
-  vid.pause(); 
-} 
-  
+function pauseVid() {
+  vid.pause();
+}
+
 $(&quot;.button&quot;).click(function(){
 	$(&quot;.button&quot;).addClass(&quot;inventory-on&quot;);
     $(&quot;.container&quot;).addClass(&quot;container-on&quot;);
@@ -1075,9 +1079,9 @@ $(&quot;.button&quot;).click(function(){
 	$( &quot;.click-me&quot; ).addClass( &quot;click-me-off&quot; );
 });
 
-function playVid() { 
-  vid.play(); 
-} 
+function playVid() {
+  vid.play();
+}
 
 $(&quot;.x&quot;).click(function(){
 	$(&quot;.button&quot;).removeClass(&quot;inventory-on&quot;);
@@ -1190,10 +1194,10 @@ console.log(window.localStorage);
 
 
 &lt;script&gt;
-function pauseVid() { 
-  vid.pause(); 
-} 
-  
+function pauseVid() {
+  vid.pause();
+}
+
 $(&quot;.button&quot;).click(function(){
 	$(&quot;.button&quot;).addClass(&quot;inventory-on&quot;);
     $(&quot;.container&quot;).addClass(&quot;container-on&quot;);
@@ -1202,9 +1206,9 @@ $(&quot;.button&quot;).click(function(){
 	$( &quot;.click-me&quot; ).addClass( &quot;click-me-off&quot; );
 });
 
-function playVid() { 
-  vid.play(); 
-} 
+function playVid() {
+  vid.play();
+}
 
 $(&quot;.x&quot;).click(function(){
 	$(&quot;.button&quot;).removeClass(&quot;inventory-on&quot;);
@@ -1285,10 +1289,10 @@ console.log(window.localStorage);
 &lt;video class&quot;waaeos-video&quot; id=&quot;c-03&quot; autoplay width=&quot;100%&quot;  src=&quot;https://video.wixstatic.com/video/533361_b75978ad8ede47f79a116837fc127847/1080p/mp4/file.mp4&quot;&gt;
 
 &lt;script&gt;
-function pauseVid() { 
-  vid.pause(); 
-} 
-  
+function pauseVid() {
+  vid.pause();
+}
+
 $(&quot;.button&quot;).click(function(){
 	$(&quot;.button&quot;).addClass(&quot;inventory-on&quot;);
     $(&quot;.container&quot;).addClass(&quot;container-on&quot;);
@@ -1297,9 +1301,9 @@ $(&quot;.button&quot;).click(function(){
 	$( &quot;.click-me&quot; ).addClass( &quot;click-me-off&quot; );
 });
 
-function playVid() { 
-  vid.play(); 
-} 
+function playVid() {
+  vid.play();
+}
 
 $(&quot;.x&quot;).click(function(){
 	$(&quot;.button&quot;).removeClass(&quot;inventory-on&quot;);
@@ -1451,10 +1455,10 @@ OR
 &lt;video class&quot;waaeos-video&quot; id=&quot;a-043&quot; autoplay width=&quot;100%&quot;  src=&quot;https://video.wixstatic.com/video/533361_bc6a3345056e467bad44dd41895bfb4c/1080p/mp4/file.mp4&quot;&gt;
 
 &lt;script&gt;
-function pauseVid() { 
-  vid.pause(); 
-} 
-  
+function pauseVid() {
+  vid.pause();
+}
+
 $(&quot;.button&quot;).click(function(){
 	$(&quot;.button&quot;).addClass(&quot;inventory-on&quot;);
     $(&quot;.container&quot;).addClass(&quot;container-on&quot;);
@@ -1463,9 +1467,9 @@ $(&quot;.button&quot;).click(function(){
 	$( &quot;.click-me&quot; ).addClass( &quot;click-me-off&quot; );
 });
 
-function playVid() { 
-  vid.play(); 
-} 
+function playVid() {
+  vid.play();
+}
 
 $(&quot;.x&quot;).click(function(){
 	$(&quot;.button&quot;).removeClass(&quot;inventory-on&quot;);
@@ -1525,10 +1529,10 @@ vid.onended = function() {
 &lt;video class&quot;waaeos-video&quot; id=&quot;b-043&quot; autoplay width=&quot;100%&quot;  src=&quot;https://video.wixstatic.com/video/121524_92f8bbe5763346c0a2ab41d43466c0fc/1080p/mp4/file.mp4&quot;&gt;
 
 &lt;script&gt;
-function pauseVid() { 
-  vid.pause(); 
-} 
-  
+function pauseVid() {
+  vid.pause();
+}
+
 $(&quot;.button&quot;).click(function(){
 	$(&quot;.button&quot;).addClass(&quot;inventory-on&quot;);
     $(&quot;.container&quot;).addClass(&quot;container-on&quot;);
@@ -1537,9 +1541,9 @@ $(&quot;.button&quot;).click(function(){
 	$( &quot;.click-me&quot; ).addClass( &quot;click-me-off&quot; );
 });
 
-function playVid() { 
-  vid.play(); 
-} 
+function playVid() {
+  vid.play();
+}
 
 $(&quot;.x&quot;).click(function(){
 	$(&quot;.button&quot;).removeClass(&quot;inventory-on&quot;);
@@ -1570,7 +1574,7 @@ I try to connect, but when I try to connect I always fail as deep down I am doin
 I try to convince myself I really care but my centerpoint still firmly remains locked into my world. I find it hard to see you not from my own perspective.
 
 
-My base level is so much higher than their base level. 
+My base level is so much higher than their base level.
 
 
 I need to learn how to be a vessel for others, that means I need to care for the land that I do not know and to care for that land I must become a vessel. I need to be careful that I understand you just enough to respect that we are different and I understand my centerpoint. That my axis of existence is vastly different to yours and yours is to mine too. But we are both humanness so we both have a heart in common.
@@ -1647,10 +1651,10 @@ Or
 &lt;video class&quot;waaeos-video&quot; id=&quot;b-051&quot; autoplay width=&quot;100%&quot;  src=&quot;https://video.wixstatic.com/video/533361_4c69e2c51a52432ab1c385516bd0f02a/1080p/mp4/file.mp4&quot;&gt;
 
 &lt;script&gt;
-function pauseVid() { 
-  vid.pause(); 
-} 
-  
+function pauseVid() {
+  vid.pause();
+}
+
 $(&quot;.button&quot;).click(function(){
 	$(&quot;.button&quot;).addClass(&quot;inventory-on&quot;);
     $(&quot;.container&quot;).addClass(&quot;container-on&quot;);
@@ -1659,9 +1663,9 @@ $(&quot;.button&quot;).click(function(){
 	$( &quot;.click-me&quot; ).addClass( &quot;click-me-off&quot; );
 });
 
-function playVid() { 
-  vid.play(); 
-} 
+function playVid() {
+  vid.play();
+}
 
 $(&quot;.x&quot;).click(function(){
 	$(&quot;.button&quot;).removeClass(&quot;inventory-on&quot;);
@@ -1746,7 +1750,7 @@ I am ignorant and you are ignorant. We are just ignorant of different things.
 
 
 
-(text-colour:white)[(t8n-arrive:&quot;blur&quot;)[[STAY ON YOUR MORAL HIGH HORSE AND FINISH THE RACE. 
+(text-colour:white)[(t8n-arrive:&quot;blur&quot;)[[STAY ON YOUR MORAL HIGH HORSE AND FINISH THE RACE.
 YOU HAVE BEEN HARMED YOU DESERVE THIS.-&gt;07-b]]]
 
 
@@ -1757,7 +1761,7 @@ or
 
 
 
-(text-colour:white)[(t8n-arrive:&quot;blur&quot;)[[DISCOVER YOUR HUMILITY, WE ARE ALWAYS IN A STATE OF LEARNING.  
+(text-colour:white)[(t8n-arrive:&quot;blur&quot;)[[DISCOVER YOUR HUMILITY, WE ARE ALWAYS IN A STATE OF LEARNING.
 USE YOUR WISDOM TOKENS TO NAVIGATE YOUR WAY TO LOVE 3.0-&gt;04-2-a]]]
 
 
@@ -1816,10 +1820,10 @@ USE YOUR WISDOM TOKENS TO NAVIGATE YOUR WAY TO LOVE 3.0-&gt;04-2-a]]]
 &lt;video class&quot;waaeos-video&quot; id=&quot;b-07&quot; autoplay width=&quot;100%&quot;  src=&quot;https://video.wixstatic.com/video/533361_862473f2be8a40beadb4eb54852b0b8a/720p/mp4/file.mp4&quot;&gt;
 
 &lt;script&gt;
-function pauseVid() { 
-  vid.pause(); 
-} 
-  
+function pauseVid() {
+  vid.pause();
+}
+
 $(&quot;.button&quot;).click(function(){
 	$(&quot;.button&quot;).addClass(&quot;inventory-on&quot;);
     $(&quot;.container&quot;).addClass(&quot;container-on&quot;);
@@ -1828,9 +1832,9 @@ $(&quot;.button&quot;).click(function(){
 	$( &quot;.click-me&quot; ).addClass( &quot;click-me-off&quot; );
 });
 
-function playVid() { 
-  vid.play(); 
-} 
+function playVid() {
+  vid.play();
+}
 
 $(&quot;.x&quot;).click(function(){
 	$(&quot;.button&quot;).removeClass(&quot;inventory-on&quot;);
@@ -1913,7 +1917,7 @@ An empty vessel that is hard to care for as it needs a divine mother to nurture 
 LOVE 3.0 is a continuous process.
 
 
-You have no choices left. 
+You have no choices left.
 
 
 
@@ -2013,10 +2017,10 @@ or
 &lt;video class&quot;waaeos-video&quot; id=&quot;a-042&quot; autoplay width=&quot;100%&quot;  src=&quot;https://video.wixstatic.com/video/533361_973a8b590f5944c3857573d667660065/720p/mp4/file.mp4&quot;&gt;
 
 &lt;script&gt;
-function pauseVid() { 
-  vid.pause(); 
-} 
-  
+function pauseVid() {
+  vid.pause();
+}
+
 $(&quot;.button&quot;).click(function(){
 	$(&quot;.button&quot;).addClass(&quot;inventory-on&quot;);
     $(&quot;.container&quot;).addClass(&quot;container-on&quot;);
@@ -2025,9 +2029,9 @@ $(&quot;.button&quot;).click(function(){
 	$( &quot;.click-me&quot; ).addClass( &quot;click-me-off&quot; );
 });
 
-function playVid() { 
-  vid.play(); 
-} 
+function playVid() {
+  vid.play();
+}
 
 $(&quot;.x&quot;).click(function(){
 	$(&quot;.button&quot;).removeClass(&quot;inventory-on&quot;);
@@ -2125,10 +2129,10 @@ console.log(window.localStorage);
 &lt;video class&quot;waaeos-video&quot; id=&quot;a-041&quot; autoplay width=&quot;100%&quot;  src=&quot;https://video.wixstatic.com/video/533361_3728964cc93340cfbf9a5caaf3ff142a/1080p/mp4/file.mp4&quot;&gt;
 
 &lt;script&gt;
-function pauseVid() { 
-  vid.pause(); 
-} 
-  
+function pauseVid() {
+  vid.pause();
+}
+
 $(&quot;.button&quot;).click(function(){
 	$(&quot;.button&quot;).addClass(&quot;inventory-on&quot;);
     $(&quot;.container&quot;).addClass(&quot;container-on&quot;);
@@ -2137,9 +2141,9 @@ $(&quot;.button&quot;).click(function(){
 	$( &quot;.click-me&quot; ).addClass( &quot;click-me-off&quot; );
 });
 
-function playVid() { 
-  vid.play(); 
-} 
+function playVid() {
+  vid.play();
+}
 
 $(&quot;.x&quot;).click(function(){
 	$(&quot;.button&quot;).removeClass(&quot;inventory-on&quot;);
@@ -2205,10 +2209,10 @@ vid.onended = function() {
 &lt;video class&quot;waaeos-video&quot; id=&quot;b-041&quot; autoplay width=&quot;100%&quot;  src=&quot;https://video.wixstatic.com/video/533361_28238385e61b4ba1957cde59bc892775/1080p/mp4/file.mp4&quot;&gt;
 
 &lt;script&gt;
-function pauseVid() { 
-  vid.pause(); 
-} 
-  
+function pauseVid() {
+  vid.pause();
+}
+
 $(&quot;.button&quot;).click(function(){
 	$(&quot;.button&quot;).addClass(&quot;inventory-on&quot;);
     $(&quot;.container&quot;).addClass(&quot;container-on&quot;);
@@ -2217,9 +2221,9 @@ $(&quot;.button&quot;).click(function(){
 	$( &quot;.click-me&quot; ).addClass( &quot;click-me-off&quot; );
 });
 
-function playVid() { 
-  vid.play(); 
-} 
+function playVid() {
+  vid.play();
+}
 
 $(&quot;.x&quot;).click(function(){
 	$(&quot;.button&quot;).removeClass(&quot;inventory-on&quot;);
@@ -2328,10 +2332,10 @@ or
 &lt;video class&quot;waaeos-video&quot; id=&quot;a-053&quot; autoplay width=&quot;100%&quot;  src=&quot;https://video.wixstatic.com/video/533361_acbef232b3c0406ab62c537028377f8c/1080p/mp4/file.mp4&quot;&gt;
 
 &lt;script&gt;
-function pauseVid() { 
-  vid.pause(); 
-} 
-  
+function pauseVid() {
+  vid.pause();
+}
+
 $(&quot;.button&quot;).click(function(){
 	$(&quot;.button&quot;).addClass(&quot;inventory-on&quot;);
     $(&quot;.container&quot;).addClass(&quot;container-on&quot;);
@@ -2340,9 +2344,9 @@ $(&quot;.button&quot;).click(function(){
 	$( &quot;.click-me&quot; ).addClass( &quot;click-me-off&quot; );
 });
 
-function playVid() { 
-  vid.play(); 
-} 
+function playVid() {
+  vid.play();
+}
 
 $(&quot;.x&quot;).click(function(){
 	$(&quot;.button&quot;).removeClass(&quot;inventory-on&quot;);
@@ -2428,10 +2432,10 @@ or
 &lt;video class&quot;waaeos-video&quot; id=&quot;a-051&quot; autoplay width=&quot;100%&quot;  src=&quot;https://video.wixstatic.com/video/533361_c95de6f799534f429ff21a9bc9b7fef2/1080p/mp4/file.mp4&quot;&gt;
 
 &lt;script&gt;
-function pauseVid() { 
-  vid.pause(); 
-} 
-  
+function pauseVid() {
+  vid.pause();
+}
+
 $(&quot;.button&quot;).click(function(){
 	$(&quot;.button&quot;).addClass(&quot;inventory-on&quot;);
     $(&quot;.container&quot;).addClass(&quot;container-on&quot;);
@@ -2440,9 +2444,9 @@ $(&quot;.button&quot;).click(function(){
 	$( &quot;.click-me&quot; ).addClass( &quot;click-me-off&quot; );
 });
 
-function playVid() { 
-  vid.play(); 
-} 
+function playVid() {
+  vid.play();
+}
 
 $(&quot;.x&quot;).click(function(){
 	$(&quot;.button&quot;).removeClass(&quot;inventory-on&quot;);
@@ -2532,10 +2536,10 @@ or
 &lt;video class&quot;waaeos-video&quot; id=&quot;a-071&quot; autoplay width=&quot;100%&quot;  src=&quot;https://video.wixstatic.com/video/533361_000b6804296f4563a170fc46e7a0d25f/1080p/mp4/file.mp4&quot;&gt;
 
 &lt;script&gt;
-function pauseVid() { 
-  vid.pause(); 
-} 
-  
+function pauseVid() {
+  vid.pause();
+}
+
 $(&quot;.button&quot;).click(function(){
 	$(&quot;.button&quot;).addClass(&quot;inventory-on&quot;);
     $(&quot;.container&quot;).addClass(&quot;container-on&quot;);
@@ -2544,9 +2548,9 @@ $(&quot;.button&quot;).click(function(){
 	$( &quot;.click-me&quot; ).addClass( &quot;click-me-off&quot; );
 });
 
-function playVid() { 
-  vid.play(); 
-} 
+function playVid() {
+  vid.play();
+}
 
 $(&quot;.x&quot;).click(function(){
 	$(&quot;.button&quot;).removeClass(&quot;inventory-on&quot;);
@@ -2588,7 +2592,7 @@ vid.onended = function() {
 
 
 
-Congratulations you followed the path of a Divine Mother. 
+Congratulations you followed the path of a Divine Mother.
 You are reaching LOVE 3.0
 
 
@@ -2610,11 +2614,11 @@ LOVE 3.0 is a continuous process.
 Why does his centerpoint deserve more than your centerpoint? That doesn&#39;t feel right. We don&#39;t believe in him anymore. We don&#39;t trust centralized technology or systems.
 
 
-In Web 3.0 they will colonize the digital land together. 
-A decentralized system, using a gameplay we already know. 
+In Web 3.0 they will colonize the digital land together.
+A decentralized system, using a gameplay we already know.
 
 
-In Love 3.0 we can collectively build a vessel on the metaocean. 
+In Love 3.0 we can collectively build a vessel on the metaocean.
 We are past collecting more to win the game.
 
 
@@ -2697,10 +2701,10 @@ or
 &lt;video class&quot;waaeos-video&quot; id=&quot;a-052&quot; autoplay width=&quot;100%&quot;  src=&quot;https://video.wixstatic.com/video/121524_befba261910b44f185446e5fd506bb3b/1080p/mp4/file.mp4&quot;&gt;
 
 &lt;script&gt;
-function pauseVid() { 
-  vid.pause(); 
-} 
-  
+function pauseVid() {
+  vid.pause();
+}
+
 $(&quot;.button&quot;).click(function(){
 	$(&quot;.button&quot;).addClass(&quot;inventory-on&quot;);
     $(&quot;.container&quot;).addClass(&quot;container-on&quot;);
@@ -2709,9 +2713,9 @@ $(&quot;.button&quot;).click(function(){
 	$( &quot;.click-me&quot; ).addClass( &quot;click-me-off&quot; );
 });
 
-function playVid() { 
-  vid.play(); 
-} 
+function playVid() {
+  vid.play();
+}
 
 $(&quot;.x&quot;).click(function(){
 	$(&quot;.button&quot;).removeClass(&quot;inventory-on&quot;);
@@ -2819,10 +2823,10 @@ or
 &lt;video class&quot;waaeos-video&quot; id=&quot;a-073&quot; autoplay width=&quot;100%&quot;  src=&quot;https://video.wixstatic.com/video/533361_c4847d3f94b34d55a814c9916d189a92/1080p/mp4/file.mp4&quot;&gt;
 
 &lt;script&gt;
-function pauseVid() { 
-  vid.pause(); 
-} 
-  
+function pauseVid() {
+  vid.pause();
+}
+
 $(&quot;.button&quot;).click(function(){
 	$(&quot;.button&quot;).addClass(&quot;inventory-on&quot;);
     $(&quot;.container&quot;).addClass(&quot;container-on&quot;);
@@ -2831,9 +2835,9 @@ $(&quot;.button&quot;).click(function(){
 	$( &quot;.click-me&quot; ).addClass( &quot;click-me-off&quot; );
 });
 
-function playVid() { 
-  vid.play(); 
-} 
+function playVid() {
+  vid.play();
+}
 
 $(&quot;.x&quot;).click(function(){
 	$(&quot;.button&quot;).removeClass(&quot;inventory-on&quot;);
@@ -2856,7 +2860,7 @@ vid.onended = function() {
 
 
 
-Suspicion and fear. How did you get here? Which reality are you in? It is the pain and death of a structure inside your internal, external and digital land that makes you hurt inside. It is the process of mourning the known whilst moving into the unknown. It is okay to have lost faith in these systems. 
+Suspicion and fear. How did you get here? Which reality are you in? It is the pain and death of a structure inside your internal, external and digital land that makes you hurt inside. It is the process of mourning the known whilst moving into the unknown. It is okay to have lost faith in these systems.
 
 
 
@@ -2864,7 +2868,7 @@ Capitalism. Communism. Centralization. Decentralization. Earth. Metaverse.
 
 
 
-Metamorphasis is a process, not an ending. 
+Metamorphasis is a process, not an ending.
 
 
 The ability to imagine the future is real and exists within us all. We just need to help one another unlock this.
@@ -2945,10 +2949,10 @@ or
 &lt;video class&quot;waaeos-video&quot; id=&quot;a-081&quot; autoplay width=&quot;100%&quot;  src=&quot;https://video.wixstatic.com/video/121524_279140712db04ba0b3208f34ea9b5fed/1080p/mp4/file.mp4&quot;&gt;
 
 &lt;script&gt;
-function pauseVid() { 
-  vid.pause(); 
-} 
-  
+function pauseVid() {
+  vid.pause();
+}
+
 $(&quot;.button&quot;).click(function(){
 	$(&quot;.button&quot;).addClass(&quot;inventory-on&quot;);
     $(&quot;.container&quot;).addClass(&quot;container-on&quot;);
@@ -2957,9 +2961,9 @@ $(&quot;.button&quot;).click(function(){
 	$( &quot;.click-me&quot; ).addClass( &quot;click-me-off&quot; );
 });
 
-function playVid() { 
-  vid.play(); 
-} 
+function playVid() {
+  vid.play();
+}
 
 $(&quot;.x&quot;).click(function(){
 	$(&quot;.button&quot;).removeClass(&quot;inventory-on&quot;);
@@ -3090,10 +3094,10 @@ LOVE 3.0 is a continuous process.
 
 
 &lt;script&gt;
-function pauseVid() { 
-  vid.pause(); 
-} 
-  
+function pauseVid() {
+  vid.pause();
+}
+
 $(&quot;.button&quot;).click(function(){
 	$(&quot;.button&quot;).addClass(&quot;inventory-on&quot;);
     $(&quot;.container&quot;).addClass(&quot;container-on&quot;);
@@ -3102,9 +3106,9 @@ $(&quot;.button&quot;).click(function(){
 	$( &quot;.click-me&quot; ).addClass( &quot;click-me-off&quot; );
 });
 
-function playVid() { 
-  vid.play(); 
-} 
+function playVid() {
+  vid.play();
+}
 
 $(&quot;.x&quot;).click(function(){
 	$(&quot;.button&quot;).removeClass(&quot;inventory-on&quot;);

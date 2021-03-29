@@ -3,6 +3,17 @@ const path = require('path');
 const uuid = require('uuid');
 const archiver = require('archiver');
 const dateformat = require('dateformat');
+const onFinished = require('on-finished');
+
+const PDFDocument = require("pdfkit");
+
+// const {
+//     jsPDF
+// } = require('jspdf');
+// const {
+//     callAddFont
+// } = require('./Gruppo-Regular-normal');
+
 const swears = require('./swears');
 
 const checkMessage = message => {
@@ -28,17 +39,44 @@ const checkMessage = message => {
     return stringToReturn;
 };
 
-function jumpLine(doc, lines) {
-    for (let index = 0; index < lines; index++) {
-      doc.moveDown();
-    };
+function generateDoc(doc) {
+    let map = path.join(__dirname + '/doc_assets/map.jpg');
+    let font = path.join(__dirname + '/fonts/Gruppo-Regular.ttf');
+
+    doc.registerFont('Main', font);
+
+    let grad = doc.linearGradient((doc.page.width / 2), 0, (doc.page.width / 2), (doc.page.height));
+
+    grad
+    .stop(0, '#000')
+    .stop(0.5, '#000')
+    .stop(1, '#808080');
+
+    doc
+    .rect(0, 0, doc.page.width, doc.page.height)
+    .fill(grad);
+
+    doc.rect(0, 0, doc.page.width, doc.page.height).fill(grad);
+
+    doc
+    .fillAndStroke('#fff')
+    .lineWidth(1)
+    .rect(10, 10, doc.page.width - 20, doc.page.height - 20)
+    .stroke();
+
+    doc.image(map, doc.page.width - 160, 30, { width: 120 });
+
+    doc
+    .font('Main')
+    .fontSize(25)
+    .text('Some text with an embedded font!', 100, 100)
+    .fontSize(18)
+    .text('PNG and JPEG images:')
 };
 
 const archiveAndStreamNFTs = async (username, nFTarray, res) => {
     let assets = path.join(__dirname + '/../downloadable_assets');
     let tmp = path.join(__dirname + '/../tmp');
-    let font = path.join(__dirname + 'fonts/Pacifico.ttf');
-    let map = path.join(__dirname + '/doc_assets/map.PNG');
 
     let docname;
 
@@ -60,57 +98,12 @@ const archiveAndStreamNFTs = async (username, nFTarray, res) => {
 
         archive.pipe(res);
 
-        //generate pdf
-        const doc = new PDFDocument();
         docname = `${uuid.v4()}.pdf`;
 
+        let doc = new PDFDocument({ margin: 50 });
         doc.pipe(fs.createWriteStream(`${tmp}/${docname}`));
 
-        doc.font('Courier-Oblique');
-
-        let grad = doc.linearGradient((doc.page.width / 2), 0, (doc.page.width / 2), (doc.page.height));
-
-        grad
-        .stop(0, '#000')
-        .stop(1, '#808080');
-
-        doc
-        .rect(0, 0, doc.page.width, doc.page.height)
-        .fill(grad);
-
-        const distanceMargin = 10;
-
-        doc
-        .fillAndStroke('#ffffff')
-        .lineWidth(1)
-        .rect(
-            distanceMargin,
-            distanceMargin,
-            doc.page.width - distanceMargin * 2,
-            doc.page.height - distanceMargin * 2,
-        )
-        .stroke();
-
-        jumpLine(doc, 10);
-
-        let imgBuffer = fs.readFileSync(map);
-
-        console.log(imgBuffer.toString('ascii', 3, 10));
-
-        doc.image(
-            imgBuffer,
-            {
-                width: 400
-            }
-        )
-
-        doc.text(
-            `Pokem ipsum dolor sit amet Ferrothorn Rhyhorn Masquerain Solrock Foongus Crobat. Pokemon 4Ever Shaymin Kanto Houndour Regirock Aerodactyl Pelipper. Ruby our courage will pull us through Zweilous Plusle Rare Candy Boldore Scrafty. Fire Red Leech Life Celadon Department Store you teach me and I'll teach you Mirror Move Wurmple Town Map. Blizzard Poliwhirl Alakazam Water Primeape Magneton Magikarp used Splash.`,
-            {
-                width: 410,
-                align: 'center'
-            }
-        );
+        generateDoc(doc, username, nFTarray);
 
         doc.end();
 
@@ -129,13 +122,15 @@ const archiveAndStreamNFTs = async (username, nFTarray, res) => {
         console.error('caught error in archive in stream', error);
         res.status(500).send('something went wrong');
     } finally {
-        if (docname && fs.existsSync(`${tmp}/${docname}`)) {
-            fs.unlink(`${tmp}/${docname}`, error => {
-                if (error) {
-                    console.error('error deleting pdf', error)
-                };
-            });
-        };
+        onFinished(res, error => {
+            if (docname && fs.existsSync(`${tmp}/${docname}`)) {
+                fs.unlink(`${tmp}/${docname}`, error => {
+                    if (error) {
+                        console.error('error deleting pdf', error)
+                    };
+                });
+            };
+        });
     };
 };
 

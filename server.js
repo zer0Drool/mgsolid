@@ -34,8 +34,8 @@ io.on('connection', (socket) => {
     });
 });
 
-app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/index.html');
+app.get('/hub', (req, res) => {
+    res.sendFile(__dirname + '/hub.html');
 });
 
 app.get('/wisdomsforlove', (req, res) => {
@@ -43,12 +43,15 @@ app.get('/wisdomsforlove', (req, res) => {
 });
 
 app.get('/download-tokens', (req, res) => {
-    console.log('downloading tokens', req.query);
     if (!req.query.username) {
         res.status(400).send('invalid username');
     } else {
         archiveAndStreamNFTs(req.query.username, req.query.nFTarray, res);
     };
+});
+
+app.get('/', (req, res) => {
+    res.sendFile(__dirname + '/index.html');
 });
 
 app.get('*', (req, res) => {

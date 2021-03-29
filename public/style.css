@@ -1,5 +1,6 @@
 * {
     margin: 0;
+    user-select: none;
 }
 
 body {
@@ -10,11 +11,150 @@ body {
     background: linear-gradient(black, grey);
 }
 
+#nft-warning-wrap {
+    z-index: 10;
+    pointer-events: none;
+    height: 100vh;
+    width: 100vw;
+    position: fixed;
+    top: 0;
+    left: 0;
+    justify-content: center;
+    align-items: center;
+    display: none;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+#nft-warning {
+    pointer-events: all;
+    border: 1px solid white;
+    padding: 20px;
+    width: 300px;
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    background-color: rgba(100, 100, 100, 0.4);
+}
+
+#nft-button-wrap {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+}
+
+.nft-warning-p {
+    text-align: center;
+    width: 80%;
+}
+
+.nft-button {
+    text-align: center;
+    min-width: 80px;
+    padding: 5px 10px;
+    border: 1px solid white;
+    border-radius: 20px;
+    transition: background-color 0.2s ease-in-out;
+}
+
+#border a {
+    text-decoration: none;
+    color: white;
+}
+
+.main-entry-button, #generate-identity {
+    padding: 5px 10px;
+    border: 1px solid white;
+    border-radius: 20px;
+    max-width: 80px;
+    transition: opacity 2s;
+}
+
+.main-entry-button p, #generate-identity p {
+    text-align: center;
+}
+
+#begin-anchor {
+    transition: opacity 2s;
+}
+
+#iden-username-wrap {
+    height: 20%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#entry-username {
+    font-family: 'Menlo', monospace;
+    width: 100%;
+    text-align: center;
+    opacity: 0;
+    display: none;
+    margin: 0;
+    transition: opacity 2s;
+}
+
+#generate-identity {
+    max-width: none;
+    width: 220px;
+}
+
+.disabled {
+    cursor: initial;
+    pointer-events: none;
+    opacity: 0;
+}
+
+.disabled p {
+    cursor: initial;
+    pointer-events: none;
+}
+
+@keyframes inverto {
+    0% {filter: invert(0%)}
+    50% {filter: invert(100%)}
+    100% {filter: invert(0%)}
+}
+
+#loading-p {
+    animation: inverto 2.5s ease-in-out infinite;
+    transition: opacity 2s;
+}
+
+#entry-new-wrap, #entry-returning-wrap {
+    display: none;
+    opacity: 0;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    width: 400px;
+    height: 300px;
+    border: 1px solid white;
+    padding: 20px;
+    transition: opacity 2s;
+}
+
+#entry-new-wrap {
+    height: 60%;
+    width: 40%;
+}
+
 #border {
     position: relative;
     width: 90%;
     height: 90%;
     border: 1px solid white;
+}
+
+.entry-border {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 p {
@@ -49,7 +189,7 @@ p {
     transition: background-color 0.2s ease-in-out;
 }
 
-#enter-button:hover, #download-button:hover {
+#enter-button:hover, #download-button:hover, #generate-identity:hover, .nft-button:hover, .main-entry-button:hover {
     background-color: rgba(255, 255, 255, 0.1);
     cursor: pointer;
 }
@@ -60,6 +200,11 @@ p {
     right: 2%;
 }
 
+.canvasElement {
+    opacity: 0;
+    transition: opacity 3s;
+}
+
 #border-container {
     display: flex;
     justify-content: center;
@@ -68,6 +213,8 @@ p {
     z-index: 2;
     width: 100%;
     height: 100%;
+    opacity: 0;
+    transition: opacity 2s;
 }
 
 #border-mini {
@@ -97,6 +244,10 @@ p {
     width: 100%;
     /* margin-bottom: 20px; */
     /* background-color: white; */
+}
+
+.new-user-popup {
+    transition: opacity 0.3s;
 }
 
 input {

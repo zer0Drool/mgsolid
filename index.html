@@ -1,80 +1,53 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html>
     <head>
         <meta charset="utf-8">
-        <title>mgsolid bb</title>
-        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>wisdom for love</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <link href="https://fonts.googleapis.com/css2?family=Gruppo&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="./style.css">
     </head>
     <body>
-
         <div id="border-container">
 
-            <div id="border">
+            <div id="border" class="entry-border">
+                <div id="entry-new-wrap">
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolor eveniet perspiciatis porro voluptates molestiae repellendus temporibus asperiores optio ipsa ea, quo, totam quos amet blanditiis odio magnam, quas quod labore?</p>
 
-                <div id="info">
-                    <p id="username"></p>
-                    <p id="current-location"></p>
+                    <div id="iden-username-wrap">
+                        <div id="generate-identity">
+                            <p>Generate Your Identity</p>
+                        </div>
+                        <p id="entry-username"></p>
+                    </div>
+
+
+
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam facere accusamus consectetur earum aperiam doloremque assumenda expedita. Maxime inventore, similique iste a rerum libero maiores aspernatur labore harum doloremque deserunt!</p>
+
+                    <a href="/hub" id="begin-anchor" class="disabled">
+                        <div class="main-entry-button">
+                            <p>Begin</p>
+                        </div>
+                    </a>
                 </div>
-
-                <div id="enter-button">
-                    <p>Enter Game</p>
+                <div id="entry-returning-wrap">
+                    <p id="return-username"></p>
+                    <a href="/hub">
+                        <div class="main-entry-button">
+                            <p>Continue</p>
+                        </div>
+                    </a>
                 </div>
-
-                <div id="download-button">
-                    <p>Download NFTs</p>
-                </div>
-
-                <p id="name"></p>
-                <div id="border-mini"></div>
-
-                <div id="chat-container">
-                    <div id="chat"></div>
-                    <input type="text">
-                </div>
-
+                <p id="loading-p">loading</p>
             </div>
 
         </div>
 
-        <script id="vertexShader" type="x-shader/x-vertex">
-            uniform vec3 viewVector;
-            uniform float c;
-            uniform float p;
-            varying float intensity;
-            void main()
-            {
-                vec3 vNormal = normalize( normalMatrix * normal );
-                vec3 vNormel = normalize( normalMatrix * viewVector );
-                intensity = pow( c - dot(vNormal, vNormel), p );
-
-                gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
-            }
-            </script>
-
-            <!-- fragment shader a.k.a. pixel shader -->
-            <script id="fragmentShader" type="x-shader/x-vertex">
-            uniform vec3 glowColor;
-            varying float intensity;
-            void main()
-            {
-                vec3 glow = glowColor * intensity;
-                gl_FragColor = vec4( glow, 1.0 );
-            }
-        </script>
-
-        <script src="twn.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-        <script src="https://code.createjs.com/1.0.0/tweenjs.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/simplex-noise/2.4.0/simplex-noise.js"></script>
         <script src="https://cdn.socket.io/3.1.3/socket.io.min.js" integrity="sha384-cPwlPLvBTa3sKAgddT6krw0cJat7egBga3DJepJyrLl4Q9/5WLra3rrnMcyTyOnh" crossorigin="anonymous"></script>
-        <script src="perlin.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/110/three.js"></script>
-        <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r126/three.js"></script> -->
-        <!-- <script src="colladaloader.js"></script> -->
-        <script src="map_obj.js"></script>
         <script src="user_names.js"></script>
-        <script src="script.js"></script>
+        <script src="./script.js"></script>
     </body>
 </html>
